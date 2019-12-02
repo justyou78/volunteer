@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p = "http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context-4.3.xsd"
+	   
+>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/views/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+	
+	
+	
+	<!-- value="-1" 용량에 제한이 없다 -->
+	<!-- 사이즈, 인코딩(UTF-8은 한글 사진은 저장할 수 있는 이유이다), 경로 -->
+	<bean id="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="maxUploadSize" value="5242880"></property>
+			<property name="defaultEncoding" value="UTF-8"></property>
+			
+	
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+      destroy-method="close" 
+      p:driverClassName="oracle.jdbc.driver.OracleDriver"
+      p:url="jdbc:oracle:thin:@nullmaster.iptime.org:1521:xe"
+      p:username="git15"
+      p:password="git15" />
+      
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="/WEB-INF/mybatis/mybatis-config.xml"></property>
+		
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	
+	<!--  해당패키지의 controller 어노테이션을 다 로딩시킨다.-->
+	<context:component-scan base-package="mvcpractice.test.controller"></context:component-scan>
+	<context:component-scan base-package="mvcpractice.test.action"></context:component-scan>
+	
+	
+	
+	
+
+</beans>
