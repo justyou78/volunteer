@@ -12,5 +12,11 @@
 	
 	<input type="button" value="장애인" onclick="window.location.href='join.vol'"/>
 	
+	<form action="insert.vol" method="post">
+		<input type="email" placeholder="이메일을 입력하세요" name="email"/>
+		<input type="submit" value="전송"/>
+		
+	</form>
+	
 </body>
 </html>

@@ -97,5 +97,31 @@
 	    <artifactId>aspectjweaver</artifactId>
 	    <version>1.9.0</version>
 	</dependency>
+	<!--  롬복 사용 -->
+	<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+	<dependency>
+	    <groupId>org.projectlombok</groupId>
+	    <artifactId>lombok</artifactId>
+	    <version>1.18.8</version>
+	    <scope>provided</scope>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven -->
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok-maven</artifactId>
+    <version>1.16.20.0</version>
+    <type>pom</type>
+</dependency>
+	
+
+	
+	<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		
+		
   </dependencies>
 </project>
