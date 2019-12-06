@@ -7,16 +7,18 @@ import lombok.Setter;
 
 
 public class MemberVO {
+	private String id;
+	
 	private String email;
 	private String name;
 	private int age;
 	private int gender;
 	private String address;
 	private String member_type;
-	private String disabled_detail;
+	private String vol_name;
+	private String disabled_name;
 	private String picture;
-	private int regist_number_vol;
-	private int regist_number_disabled;
+	private int regist_number;
 	private int total_vol_time;
 	private int point;
 	public String getEmail() {
@@ -55,29 +57,32 @@ public class MemberVO {
 	public void setMember_type(String member_type) {
 		this.member_type = member_type;
 	}
-	public String getDisabled_detail() {
-		return disabled_detail;
-	}
-	public void setDisabled_detail(String disabled_detail) {
-		this.disabled_detail = disabled_detail;
-	}
+
 	public String getPicture() {
 		return picture;
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	public int getRegist_number_vol() {
-		return regist_number_vol;
+	
+	
+	public String getVol_name() {
+		return vol_name;
 	}
-	public void setRegist_number_vol(int regist_number_vol) {
-		this.regist_number_vol = regist_number_vol;
+	public void setVol_name(String vol_name) {
+		this.vol_name = vol_name;
 	}
-	public int getRegist_number_disabled() {
-		return regist_number_disabled;
+	public String getDisabled_name() {
+		return disabled_name;
 	}
-	public void setRegist_number_disabled(int regist_number_disabled) {
-		this.regist_number_disabled = regist_number_disabled;
+	public void setDisabled_name(String disabled_name) {
+		this.disabled_name = disabled_name;
+	}
+	public int getRegist_number() {
+		return regist_number;
+	}
+	public void setRegist_number(int regist_number) {
+		this.regist_number = regist_number;
 	}
 	public int getTotal_vol_time() {
 		return total_vol_time;
@@ -90,6 +95,12 @@ public class MemberVO {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	
