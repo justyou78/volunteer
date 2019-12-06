@@ -8,14 +8,22 @@ import volunteer.data.vo.MemberVO;
 
 
 @Repository
-public class MemberDAOImpl {
+public class MemberDAOImpl implements MemberDAO {
 	
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
 	
-	public void insertMember(MemberVO vo) {
+	public void insert(MemberVO vo) {
 		sqlSession.insert("member.insertVolMember", vo);
+	}
+	public String selectID(String id) {
+		return sqlSession.selectOne("member.selectID",id);
 		
 	}
+	
+	public void update(MemberVO vo) {
+		sqlSession.update("member.updateVolMember", vo);
+	}
+	
 }

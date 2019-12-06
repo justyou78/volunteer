@@ -10,8 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<insert id="insertVolMember"  parameterType="memberVO">
-		insert into member(email) values(#{email})
+		insert into member(id, name,picture) values(#{id}, #{name}, #{picture})
 	</insert>
+	<update id="updateVolMember" parameterType="memberVO">
+		update  member set name=#{name}, picture=#{picture} where id = #{id}
+	</update>
+	
+	<select id="selectID" parameterType="String"  resultType="String">
+		select id from member where id=#{id}
+	</select>
 	<!-- <select id="checkPw" resultType="int">
 		select count(*) from member
 		where userid=#{userid} and passwd = #{passwd}
