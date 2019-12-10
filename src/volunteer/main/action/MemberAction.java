@@ -6,6 +6,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import volunteer.data.dao.MemberDAO;
 import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.method.Kakao_Restapi;
 import volunteer.data.vo.MemberVO;
@@ -26,25 +28,52 @@ public class MemberAction {
 	@Inject
 	MemberDAOImpl memberDao;
 
+	
+	//시작 화면
 	@RequestMapping("main")
-	public String main() {
-
+	public String main(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		System.out.println(session.getAttribute("isLogin"));
+		//로그인을 하지 않은 상태에서 각 '봉사자' '장애인'버튼을 클릭 했을시 alert발생을 위하여 attribute를 설정한다.
+		if(session.getAttribute("isLogin") != null &&session.getAttribute("isLogin").equals("false")) {
+			System.out.println("진입");
+			
+			session.invalidate();
+			
+			request.setAttribute("isLogin", false);
+		}
+		
 		return "main_join/main";
 	}
 	
+	//추가 입력사항 이동 
 	@RequestMapping("join")
-	public String join() {
+	public String join(HttpSession session) {
+	
 		return "main_join/join";
 	}
 	
-	@RequestMapping("insert.vol")
-	public void insert(MemberVO vo) {
-		System.out.println("insert");
-		memberDao.insert(vo);
+	
+	//추가 입력사항 DB에 저장하는 Controller
+	@RequestMapping("join_pro")
+	public String join_pro(MemberVO vo, HttpSession session) {
+		
+		System.out.println(vo.getMember_type()+"멤버타입");
+		vo.setId((String)session.getAttribute("id"));
+		memberDao.updateInfo(vo);
+		if(vo.getMember_type().equals("1")) {
+			return "redirect:/volunteer/main.vol";
+		}
+		else if (vo.getMember_type().equals("2")) {
+			//장애인 화면으로 이동.
+			return "";
+		}
+		else {
+			return "redirect:/main_join/main.vol";
+		}
+		
 	}
-	
-	
-    
 
 	@RequestMapping(value = "oauth", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
 	public String kakaoLogin(@RequestParam("code") String code, Model model, HttpSession session) {
@@ -78,6 +107,7 @@ public class MemberAction {
 
 		// 이미지를 내부 서버에 저장한다.
 		try {
+			if(imgUrl != null) {
 			URL url = new URL(imgUrl);
 			// 이미지 파일명 추출
 			String fileName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1, imgUrl.length());
@@ -90,6 +120,7 @@ public class MemberAction {
 			ImageIO.write(img, ext, new File(
 					"C:\\Spring_An\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp7\\wtpwebapps\\volunteer\\img\\userimg\\"
 							+ fileName));
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -110,10 +141,12 @@ public class MemberAction {
 			memberDao.update(vo);
 			System.out.println("update");
 		}
-		return "main_join/main";
+		return "redirect:/main_join/main.vol";
 	}
+	
+	//카카오 로그인 logout
 	@RequestMapping(value = "logout", produces = "application/json")
-	public String Logout(HttpSession session) {
+	public String logout(HttpSession session) {
 		// kakao restapi 객체 선언
 		Kakao_Restapi kr = new Kakao_Restapi();
 		// 노드에 로그아웃한 결과값음 담아줌 매개변수는 세션에 잇는 token을 가져와 문자열로 변환
@@ -122,5 +155,7 @@ public class MemberAction {
 		System.out.println("로그인 후 반환되는 아이디 : " + node.get("id"));
 		return "redirect:/";
 	}
+	
+	
 
 }

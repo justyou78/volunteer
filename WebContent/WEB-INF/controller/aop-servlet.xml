@@ -13,4 +13,19 @@
 	   
 >
 
+		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+		<bean id="advice" class="volunteer.data.aop.LoginAOP"/>
+		
+		
+		
+		<aop:config>
+			<aop:pointcut expression="execution(public * volunteer.main.action..Member*.join*(..))" id="pc"></aop:pointcut>
+			
+			<aop:aspect id="ar" ref="advice">
+				<aop:around pointcut-ref ="pc" method="around" />
+			</aop:aspect>
+			
+		</aop:config>
+		
+
 </beans>

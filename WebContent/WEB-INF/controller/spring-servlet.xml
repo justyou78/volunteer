@@ -17,6 +17,12 @@
       <property name="prefix" value="/WEB-INF/views/" />
       <property name="suffix" value=".jsp" />
    </bean>
+   
+   <bean id="dateformat" class="java.text.SimpleDateFormat"/>
+    
+   <bean id ="day" class="java.util.Date"/>
+   
+  
 		
 	<!-- value="-1" 용량에 제한이 없다 -->
 	<!-- 사이즈, 인코딩(UTF-8은 한글 사진은 저장할 수 있는 이유이다), 경로 -->
