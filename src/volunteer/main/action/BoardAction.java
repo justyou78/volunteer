@@ -1,6 +1,8 @@
-package volunteer.board.action;
+package volunteer.main.action;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +46,9 @@ public class BoardAction {
 		return "board/boardWriteForm";
 	}
 	@RequestMapping("boardWritePro")
-	public String boardWritePro(BoardVO vo) {
+	public String boardWritePro(BoardVO vo, HttpSession session) {
+		String id =(String)session.getAttribute("id");
+		vo.setId(id);
 		dao.insert(vo);
 		return "board/boardWritePro";
 	}
@@ -52,6 +56,8 @@ public class BoardAction {
 	// 게시글 수정
 	@RequestMapping("boardModifyForm")
 	public String boardModifyForm(Model model, int num) {
+		
+		
 		BoardVO vo = dao.selectNum(num);
 		model.addAttribute("vo", vo);
 		return "board/boardModifyForm";

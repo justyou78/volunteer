@@ -25,5 +25,22 @@ public class MemberDAOImpl implements MemberDAO {
 	public void update(MemberVO vo) {
 		sqlSession.update("member.updateVolMember", vo);
 	}
+	public String getName(String id) {
+		return sqlSession.selectOne("member.getName", id);
+	}
+	public MemberVO selectAll(String id) {
+		return sqlSession.selectOne("member.selectAll", id);
+	}
+	public void updateInfo(MemberVO vo) {
+		System.out.println("updateInfo"+ vo.getMember_type());
+		if(vo.getMember_type().equals("1")) {
+			System.out.println("TEST");
+			sqlSession.update("member.updateVol",vo);
+		}
+		else {
+			sqlSession.update("member.updateDisabled",vo);
+			
+		}
+	}
 	
 }

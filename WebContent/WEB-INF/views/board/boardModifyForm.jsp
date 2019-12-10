@@ -9,7 +9,6 @@
 <body>
 	<h1>boardModifyForm</h1>
 	<form action="boardModifyPro.vol" method="post">
-		<input type="hidden" name="id" value="sessionId" />
 		<input type="hidden" name="views" value="${vo.views }" />
 		<input type="hidden" name="bbsno" value="${vo.bbsno }" />
 		<table>

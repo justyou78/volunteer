@@ -1,13 +1,11 @@
 package volunteer.data.vo;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 
 public class MemberVO {
 	private String id;
+	private int disabled_number;
 	
 	private String email;
 	private String name;
@@ -21,6 +19,12 @@ public class MemberVO {
 	private int regist_number;
 	private int total_vol_time;
 	private int point;
+	public int getDisabled_number() {
+		return disabled_number;
+	}
+	public void setDisabled_number(int disabled_number) {
+		this.disabled_number = disabled_number;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -78,6 +82,8 @@ public class MemberVO {
 	public void setDisabled_name(String disabled_name) {
 		this.disabled_name = disabled_name;
 	}
+	
+	
 	public int getRegist_number() {
 		return regist_number;
 	}

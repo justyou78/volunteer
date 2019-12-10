@@ -1,30 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%@ include file="../include/include.jsp" %>
+<%@ include file="../include/include.jsp"%>
 </head>
 <body>
-	<form action="join_pro.vol" method="post" name="join">
-	<div>신뢰할 수 있는 사람인지 알기 위해서 추가적인 정보가 필요합니다. </div>
-	<select name=member_type onchange="select_type()" id="member_type">
-		<option value="1"  selected>봉사자</option>
-		<option value="2">장애인</option>
-		
-	</select><br/>
-	이메일<input type="email"  name="email" placeholder="이메일 형식으로 아이디 입력해주세요."> <br/>
-	 나이 <input type="number" name="age" /> <br/>
-	성별 <select name="gender"  name="gender"><option value="1" >남</option><option value="2"> 여</option></select><br/>
-	<!-- <input type="text" id="sample4_postcode" placeholder="우편번호"> -->
+	<form action="/volunteer/volunteer/change_info_Pro.vol" method="post">
+
+		<h1>회원정보 수정</h1>
+		<input type="email" value="${memberVO.email }" name="email" /> <input
+			type="text" value="${memberVO.age }" name="age" />
+		<c:if test="${memberVO.gender ==1}">
+			<input type="text" value="남" name="isgender" />
+		</c:if>
+		<c:if test="${memberVO.gender==2}">
+			<input type="text" value="여" name="isgender" />
+		</c:if>
+
+		<input type="hidden" id="sample4_postcode" placeholder="우편번호">
 <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address">
+<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address" value="${memberVO.address}">
+<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
 <span id="guide" style="color:#999;display:none"></span>
-<!-- <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
 <input type="text" id="sample4_detailAddress" placeholder="상세주소">
-<input type="text" id="sample4_extraAddress" placeholder="참고항목"> -->
+<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -84,34 +86,25 @@
         }).open();
     }
 </script>
-	<div id="type"></div>
-	
-	
-	
-	<input type="submit" value="회원가입"/>
-	<!--  member type 과 dsabled_detail,regist_number_vol / regist_number/disabled 값을 설정해주자 -->
-	</form>
-	
-	
-</body>
-<script>
-		window.onload = function() { //실행될 코드 }
-			select_type();
-		}
-		function select_type(){
-			var mt = document.getElementById("member_type");
-			console.log(mt.value);
-			
-			if(mt.value==1){
-				
-				type.innerHTML='자격증 이름<input type="text" name="vol_name" /><br/> 자격증 번호<input type="text" name="regist_number_vol"/> ';
-				
-			}
-			else if(mt.value==2){
-				type.innerHTML='장애명<input type="text" name="disabled_name" /><br/> 장애인등록번호<input type="text" name="disabled_number"/>';
-			}
-		}
-		
-</script>
-</html>
 
+		<c:if test="${memberVO.member_type== 1 }">
+			<input type="text" value="${memberVO.vol_name}" name="vol_name" />
+			<input type="text" value="${memberVO.regist_number}"
+				name="regist_number" />
+
+		</c:if>
+		<c:if test="${memberVO.member_type== 2 }">
+			<input type="text" value="${memberVO.disabled_name}"
+				name="disabled_name" />
+			<input type="text" value="${memberVO.disabled_number}"
+				name="disabled_number" />
+
+		</c:if>
+		<input type="hidden" name="member_type" value=${memberVO.member_type } />
+		<input type="submit" value="수정하기" />
+	</form>
+
+
+
+</body>
+</html>

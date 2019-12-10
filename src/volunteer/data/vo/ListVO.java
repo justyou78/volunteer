@@ -1,25 +1,36 @@
 package volunteer.data.vo;
 
+import java.sql.Timestamp;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 public class ListVO {
-	private String vol_email;
-	private String disabled_email;
+	private String vol_id;
+	private String disabled_id;
 	private int vol_time;
 	private String content;
-	public String getVol_email() {
-		return vol_email;
+	private Timestamp time;
+	
+	
+	public Timestamp getTime() {
+		return time;
 	}
-	public void setVol_email(String vol_email) {
-		this.vol_email = vol_email;
+	public void setTime(Timestamp time) {
+		this.time = time;
 	}
-	public String getDisabled_email() {
-		return disabled_email;
+	public String getVol_id() {
+		return vol_id;
 	}
-	public void setDisabled_email(String disabled_email) {
-		this.disabled_email = disabled_email;
+	public void setVol_id(String vol_id) {
+		this.vol_id = vol_id;
+	}
+	public String getDisabled_id() {
+		return disabled_id;
+	}
+	public void setDisabled_id(String disabled_id) {
+		this.disabled_id = disabled_id;
 	}
 	public int getVol_time() {
 		return vol_time;
