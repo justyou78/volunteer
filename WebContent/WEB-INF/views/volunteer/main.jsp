@@ -14,7 +14,7 @@
 	</c:if>
 	<form action="/volunteer/volunteer/main.vol" method="post" >
 	<a href="change_info.vol">회원정보수정</a>
-	<a href="">게시판</a>
+	<a href="/volunteer/board/boardList.vol">게시판</a>
 	<a href="sponsor.vol">후원하기</a>
 	
 	<input type="date"  name="sysdate" /> <br/>

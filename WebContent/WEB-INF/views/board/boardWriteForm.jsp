@@ -9,7 +9,6 @@
 <body>
 	<h1>boardWriteForm</h1>
 	<form action="boardWritePro.vol" method="post">
-		<input type="hidden" name="id" value="sessionId" />
 		<input type="hidden" name="views" value="0" />
 		<table>
 			<tr>
