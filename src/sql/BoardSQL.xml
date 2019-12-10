@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
+
+<mapper namespace="board">
+	
+	<select id="select" resultType="boardVO">
+		select * from board order by bbsno desc
+	</select>
+	<select id="selectNum" parameterType="int" resultType="boardVO">
+		select * from board where bbsno=#{num}
+	</select>
+	
+	<insert id="insert" parameterType="boardVO">
+		insert into board values(seq_board.nextval,#{id},#{categor},#{subject},#{content},sysdate,#{file01},#{file02},#{link01},#{views})
+	</insert>
+	
+	<update id="update" parameterType="boardVO">
+		update board set categor=#{categor}, subject=#{subject}, content=#{content}, file01=#{file01}, file02=#{file02}, link01=#{link01} where bbsno=#{bbsno}
+	</update>
+	<update id="updateViews" parameterType="boardVO">
+		update board set views=#{views} where bbsno=#{bbsno}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from board where bbsno=#{num}
+	</delete>
+	
+</mapper>

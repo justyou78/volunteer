@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		
+		<typeAlias type="volunteer.data.vo.BoardVO" alias="boardVO"/>
 		<typeAlias type="volunteer.data.vo.MemberVO" alias="memberVO"/>
 		<typeAlias type="volunteer.data.vo.ListVO" alias="listVO"/>
 		<typeAlias type="volunteer.data.vo.ConnectVO" alias="connectVO"/>
@@ -12,6 +12,7 @@
 	</typeAliases>
 	<mappers>
 		<mapper resource="/sql/DonationSQL.xml" />
+		<mapper resource="/sql/BoardSQL.xml" />
 		<mapper resource="/sql/ConnectSQL.xml" />
 		<mapper resource="/sql/ListSQL.xml" />
 		<mapper resource="/sql/memberSQL.xml" />
