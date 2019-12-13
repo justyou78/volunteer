@@ -34,18 +34,30 @@ public class LoginAOP {
 			}
 			
 			
+			
 			MemberVO vo =  memberDao.selectAll(id);
 			if(vo.getEmail()== null || vo.getEmail().equals("")){
 				return (String) jp.proceed();
 			}
 			else {
+				String st = request.getParameter("page");
 				if(vo.getMember_type().equals("1")) {
+				
+					if(!st.equals((String)vo.getMember_type())) {
+						System.out.println("불일치");
+						session.setAttribute("auth", "no");
+					}
 					return "redirect:/volunteer/main.vol";
 					
 				}
 				else {
 					//장애인 화면으로 이동
-					return "";
+					if(!st.equals((String)vo.getMember_type())) {
+						System.out.println("불일치");
+						session.setAttribute("auth", "no.");
+						
+					}
+					return "redirect:/disabled/disabledMain.vol";
 				}
 				
 				

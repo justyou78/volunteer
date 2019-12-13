@@ -17,10 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<update id="updateVol" parameterType="memberVO">
-		update member set member_type=#{member_type},email=#{email} ,age=#{age},gender=#{gender} , address=#{address}, vol_name=#{vol_name} , regist_number=#{regist_number} where id = #{id}
+		update member set  callnumber=#{callnumber}, member_type=#{member_type},email=#{email} ,age=#{age},gender=#{gender} , address=#{address}, vol_name=#{vol_name} , regist_number=#{regist_number} where id = #{id}
 	</update>
 	<update id="updateDisabled" parameterType="memberVO">
-		update member set member_type=#{member_type},email=#{email} ,age=#{age},gender=#{gender} , address=#{address}, disabled_name=#{disabled_name} , disabled_number=#{disabled_number} where id = #{id}
+		update member set callnumber=#{callnumber}, member_type=#{member_type},email=#{email} ,age=#{age},gender=#{gender} , address=#{address}, disabled_name=#{disabled_name} , disabled_number=#{disabled_number} where id = #{id}
 	</update>
 	
 	<select id="selectID" parameterType="String"  resultType="String">
@@ -39,8 +39,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where id = #{id}
 	</select>
 	<update id="updateInfo" parameterType="memberVO" >
-		update member set email=#{email}, age=#{age}, gender=#{gender}, address=#{address}, vol_name=#{vol_name}, regist_number=#{regist_number} where id=#{id} 
+		update member set callnumber=#{callnumber} email=#{email}, age=#{age}, gender=#{gender}, address=#{address}, vol_name=#{vol_name}, regist_number=#{regist_number} where id=#{id} 
 	</update>
+	<update id="disabledInfo" parameterType="memberVO" >
+		update member set callnumber=#{callnumber}, email=#{email}, age=#{age}, gender=#{gender}, address=#{address}, disabled_name=#{disabled_name}, disabled_number=#{disabled_number} where id=#{id} 
+	</update>
+	
+	<select id="selectVolFromAddress" parameterType="hashmap" resultType="memberVO">
+		select *  from member where address like CONCAT(#{address},'%') and not id=#{id}
+	</select>
+	
+	
 	
 	
 	

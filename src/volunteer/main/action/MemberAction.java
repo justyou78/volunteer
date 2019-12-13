@@ -31,7 +31,7 @@ public class MemberAction {
 	
 	//시작 화면
 	@RequestMapping("main")
-	public String main(HttpServletRequest request) {
+	public String main(HttpServletRequest request,Model model) {
 		
 		HttpSession session = request.getSession();
 		System.out.println(session.getAttribute("isLogin"));
@@ -39,9 +39,8 @@ public class MemberAction {
 		if(session.getAttribute("isLogin") != null &&session.getAttribute("isLogin").equals("false")) {
 			System.out.println("진입");
 			
-			session.invalidate();
-			
-			request.setAttribute("isLogin", false);
+				model.addAttribute("isLogin","로그인 후 이용해주세요.");
+				session.removeAttribute("isLogin");
 		}
 		
 		return "main_join/main";
@@ -67,7 +66,7 @@ public class MemberAction {
 		}
 		else if (vo.getMember_type().equals("2")) {
 			//장애인 화면으로 이동.
-			return "";
+			return "redirect:/disabled/disabledMain.vol";
 		}
 		else {
 			return "redirect:/main_join/main.vol";
@@ -92,7 +91,7 @@ public class MemberAction {
 		// 유저정보 가져온다.
 		JsonNode node02 = kakao_restapi.getKakaoUserInfo(token);
 
-		// System.out.println(node02);
+		System.out.println(node02);
 
 		// 각 정보를 꺼내온다.
 		JsonNode properties = node02.path("properties");
@@ -107,7 +106,7 @@ public class MemberAction {
 
 		// 이미지를 내부 서버에 저장한다.
 		try {
-			if(imgUrl != null) {
+			if(imgUrl != null && imgUrl.length() > 0) {
 			URL url = new URL(imgUrl);
 			// 이미지 파일명 추출
 			String fileName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1, imgUrl.length());
@@ -121,7 +120,8 @@ public class MemberAction {
 					"C:\\Spring_An\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp7\\wtpwebapps\\volunteer\\img\\userimg\\"
 							+ fileName));
 			}
-
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class MemberAction {
 		}
 		return "redirect:/main_join/main.vol";
 	}
-	
+	  
 	//카카오 로그인 logout
 	@RequestMapping(value = "logout", produces = "application/json")
 	public String logout(HttpSession session) {

@@ -6,9 +6,18 @@
 <head>
     <meta charset="utf-8">
     <title>마커 클러스터러에 클릭이벤트 추가하기</title>
-    
+<%@ include file="../include/include.jsp" %>
 </head>
 <body>
+	<c:if test="${auth !=null }">
+		<script>
+				window.alert('${auth}');
+			
+		</script>
+		
+	</c:if>
+
+
 <p style="margin-top:-12px">
      사용한 데이터를 보시려면
     <em class="link">
@@ -16,6 +25,26 @@
     </em>
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
+${ message }
+<c:if test="${empty message}">
+
+	<form method="get" action="sendMessage.vol">
+		<input type="text"  placeholder="봉사시간" name=vol_time/>
+		<input type="submit"  value="도움 요청하기"/>
+	</form>
+</c:if>
+
+<c:if test="${message=='success' }">
+		<input type="button"  value="응답대기중"/>
+</c:if>
+<c:if test="${message=='fail'}">
+		
+		<form method="get" action="sendMessage.vol">
+			<input type="text"  placeholder="봉사시간" name=vol_time/>
+			<input type="submit"  value="도움 요청하기"/>
+		</form>
+		<p>주변에 사람이 없습니다.</p>
+</c:if>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=494e02c4821bde94e76161ca7fd542b2&libraries=clusterer"></script>
 <script>
@@ -62,6 +91,10 @@
         // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
+    
+    
+    
+    
 </script>
 </body>
 </html>

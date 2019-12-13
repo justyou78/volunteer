@@ -8,9 +8,12 @@
 <%@ include file="../include/include.jsp" %>
 </head>
 <body>
-
-	<c:if test="${changeInfo }">
-	
+	<c:if test="${auth !=null }">
+		<script>
+				window.alert('${auth}');
+			
+		</script>
+		
 	</c:if>
 	<form action="/volunteer/volunteer/main.vol" method="post" >
 	<a href="change_info.vol">회원정보수정</a>

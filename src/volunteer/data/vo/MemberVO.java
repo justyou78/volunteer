@@ -19,6 +19,15 @@ public class MemberVO {
 	private int regist_number;
 	private int total_vol_time;
 	private int point;
+	private String callnumber;
+	
+	
+	public String getCallnumber() {
+		return callnumber;
+	}
+	public void setCallnumber(String callnumber) {
+		this.callnumber = callnumber;
+	}
 	public int getDisabled_number() {
 		return disabled_number;
 	}

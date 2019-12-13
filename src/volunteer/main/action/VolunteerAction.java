@@ -43,11 +43,20 @@ public class VolunteerAction {
 	@Autowired
 	Kakao_Restapi kakao_restapi;
 	
-	
+	@RequestMapping("connect")
+	public String connect() {
+		return "volunteer/connect";
+	}
 
 	@RequestMapping("main")
 	public String main(HttpSession session, Model model, String sysdate) {
 		// 그래프 그리기.
+		if(session.getAttribute("auth") !=null ) {
+			model.addAttribute("auth","장애인 회원만 접근 할 수 있습니다.");
+			session.removeAttribute("auth");
+		}
+		
+		
 		String id = (String) session.getAttribute("id");
 		String imgName = null;
 		if (sysdate == null) {
@@ -111,6 +120,7 @@ public class VolunteerAction {
 		System.out.println(vo.getId());
 		System.out.println(vo.getVol_name());
 		System.out.println(vo.getRegist_number());
+		System.out.println(vo.getMember_type());
 
 		memberDao.updateInfo(vo);
 
