@@ -7,5 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 다른 mapper와 중복되지 않도록 네임스페이스 기재 -->
 
 <mapper namespace="connect">
+	<insert id="insert" parameterType="hashmap" >
+		insert into vol_connect(vol_id,disabled_id) values(#{vol_id},#{disabled_id})
+	</insert>
 	
+	<update id="insert_vol" parameterType="hashmap" >
+		update vol_connect set vol_check=1 where vol_id=#{vol_id} and disabled_id=#{disabled_id}
+	</update>
 </mapper>

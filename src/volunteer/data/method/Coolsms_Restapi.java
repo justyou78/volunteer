@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import volunteer.data.dao.ConnectDAOImpl;
 import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.vo.MemberVO;
 
@@ -18,6 +19,8 @@ import volunteer.data.vo.MemberVO;
 public class Coolsms_Restapi {
 	@Autowired
 	MemberDAOImpl memberDao;
+	@Autowired
+	ConnectDAOImpl connectDao;
 	
 	
 	public String sendSMS(HttpSession session,String vol_time) {
@@ -65,10 +68,10 @@ public class Coolsms_Restapi {
 		
 		params.put("from", "01056459294");
 		params.put("type", "SMS");
-		params.put("text", "봉사요청! ("+vol_time+"시간)\n http://192.168.0.48:8081/volunteer/volunteer/connect.vol?id="+id);
+		params.put("text", "봉사요청! ("+vol_time+"시간)\n http://192.168.0.48:8081/volunteer/volunteer/connect.vol?disabled_id="+id);
 		params.put("app_version", "test app 1.2"); // application name and version
 		
-		System.out.println("봉사요청! ("+vol_time+"시간)\n http://192.168.0.48:8081/volunteer/volunteer/connect.vol?id="+id);
+		System.out.println("봉사요청! ("+vol_time+"시간)\n http://192.168.0.48:8081/volunteer/volunteer/connect.vol?disabled_id="+id);
 		
 		if(list.size() ==0) {
 			return "fail";
@@ -76,7 +79,9 @@ public class Coolsms_Restapi {
 		else {
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println(list.get(i).getCallnumber());
+				
 				params.put("to", String.valueOf(list.get(i).getCallnumber()) );
+				connectDao.insert(id, list.get(i).getId());
 //				try {
 //					JSONObject obj = (JSONObject) coolsms.send(params);
 //					System.out.println(obj.toString());

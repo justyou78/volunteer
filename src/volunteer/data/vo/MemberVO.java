@@ -20,8 +20,16 @@ public class MemberVO {
 	private int total_vol_time;
 	private int point;
 	private String callnumber;
+	private String pw;
 	
 	
+	
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
 	public String getCallnumber() {
 		return callnumber;
 	}

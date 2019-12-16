@@ -4,6 +4,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+	$(function(){
+		
+			$.ajax({
+				type : "get",
+				url : "/volunteer/disabled/getConnect.vol",
+				success : function(data){
+					$('connect_list').append(data);
+					
+					
+				}
+			});
+		
+	});
+</script>
+
+
     <meta charset="utf-8">
     <title>마커 클러스터러에 클릭이벤트 추가하기</title>
 <%@ include file="../include/include.jsp" %>
@@ -26,27 +43,41 @@
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
 ${ message }
-<c:if test="${empty message}">
+<c:if test="${empty message || message=='fail'}">
 
 	<form method="get" action="sendMessage.vol">
-		<input type="text"  placeholder="봉사시간" name=vol_time/>
+		<input type="text"  placeholder="봉사시간" name="vol_time"/>
 		<input type="submit"  value="도움 요청하기"/>
+		<c:if test="${message=='fail'}">
+		<p>주변에 사람이 없습니다.</p>
+		</c:if>
+		
 	</form>
 </c:if>
 
 <c:if test="${message=='success' }">
 		<input type="button"  value="응답대기중"/>
 </c:if>
-<c:if test="${message=='fail'}">
-		
-		<form method="get" action="sendMessage.vol">
-			<input type="text"  placeholder="봉사시간" name=vol_time/>
-			<input type="submit"  value="도움 요청하기"/>
-		</form>
-		<p>주변에 사람이 없습니다.</p>
-</c:if>
+
+<table>
+	
+</table>
+	
+
+<div id="connect_list">
+	
+
+</div>
+
+
+
+
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=494e02c4821bde94e76161ca7fd542b2&libraries=clusterer"></script>
+
+
+
+
 <script>
     var map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
         center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표

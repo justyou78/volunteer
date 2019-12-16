@@ -35,10 +35,7 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne("member.selectAll", id);
 	}
 	public void updateInfo(MemberVO vo) {
-		System.out.println("updateInfo"+ vo.getMember_type());
-		System.out.println(vo.getMember_type());
 		if(vo.getMember_type().equals("1")) {
-			System.out.println("TEST");
 			sqlSession.update("member.updateVol",vo);
 		}
 		else {
@@ -49,6 +46,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public List selectVolFromAddress(HashMap<String, String> hm) {
 		List<MemberVO> list = sqlSession.selectList("member.selectVolFromAddress", hm);
 		return list;
+	}
+	public MemberVO selectAllFromEmail(String email) {
+		return sqlSession.selectOne("member.selectAllFromEmail",email);
 	}
 	
 }
