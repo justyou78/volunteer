@@ -1,5 +1,6 @@
 package volunteer.data.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,6 +36,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	public void updateInfo(MemberVO vo) {
 		System.out.println("updateInfo"+ vo.getMember_type());
+		System.out.println(vo.getMember_type());
 		if(vo.getMember_type().equals("1")) {
 			System.out.println("TEST");
 			sqlSession.update("member.updateVol",vo);
@@ -47,6 +49,10 @@ public class MemberDAOImpl implements MemberDAO {
 	public List<String> selectAllID(){
 		List<String> id = sqlSession.selectList("member.selectAllID");
 		return id;
+	}
+	public List selectVolFromAddress(HashMap<String, String> hm) {
+		List<MemberVO> list = sqlSession.selectList("member.selectVolFromAddress", hm);
+		return list;
 	}
 	
 }

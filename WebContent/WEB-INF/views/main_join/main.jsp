@@ -11,25 +11,26 @@
 
 </head>
 <body>
-		<script>
-			if(${isLogin} == false){
+		<c:if test="${isLogin !=null}">
+			<script>
 				window.alert('로그인 후 이용해주세요');
-			}
 			
-		</script>
+			</script>
+		</c:if>
+		
 		  <!-- <form method="POST" action="https://kauth.kakao.com/oauth/authorize?client_id=0b04594c8c451f296a17595e84141bd2&redirect_uri=http://localhost:8081/volunteer/main_join/oauth.vol&response_type=code">
         	<input type="submit" value="전송"/>
         </form> -->
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=0b04594c8c451f296a17595e84141bd2&redirect_uri=http://localhost:8081/volunteer/main_join/oauth.vol&response_type=code">
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=0b04594c8c451f296a17595e84141bd2&redirect_uri=http://192.168.0.48:8081/volunteer/main_join/oauth.vol&response_type=code">
             <img src="/volunteer/img/kakao_login_btn_small.png">
         </a>
         <!-- <img alt="" src="http://k.kakaocdn.net/dn/bdxYWy/btqz0GfFKbr/QOlFfVwItHqviC2rEbbEP1/img_640x640.jpg"> -->
         
       <c:set var ="path" value="${pageContext.request.contextPath}" />
 
-	<input type="button" value="봉사자"   onclick="window.location.href='/volunteer/main_join/join.vol'"/>
+	<input type="button" value="봉사자"   onclick="window.location.href='/volunteer/main_join/join.vol?page=1'"/>
 	
-	<input type="button" value="장애인" onclick="window.location.href='/volunteer/main_join/join.vol"/>
+	<input type="button" value="장애인" onclick="window.location.href='/volunteer/main_join/join.vol?page=2'"/>
 	
 	
 	

@@ -4,72 +4,73 @@ package volunteer.data.vo;
 
 
 public class MemberVO {
-   private String id;
-   private int disabled_number;
-   
-   private String email;
-   private String name;
-   private int age;
-   private int gender;
-   private String address;
-   private String member_type;
-   private String vol_name;
-   private String disabled_name;
-   private String picture;
-   private int regist_number;
-   private int total_vol_time;
-   private int point;
-   private String callnumber;
-   
-   
-   public String getCallnumber() {
-      return callnumber;
-   }
-   public void setCallnumber(String callnumber) {
-      this.callnumber = callnumber;
-   }
-   public int getDisabled_number() {
-      return disabled_number;
-   }
-   public void setDisabled_number(int disabled_number) {
-      this.disabled_number = disabled_number;
-   }
-   public String getEmail() {
-      return email;
-   }
-   public void setEmail(String email) {
-      this.email = email;
-   }
-   public String getName() {
-      return name;
-   }
-   public void setName(String name) {
-      this.name = name;
-   }
-   public int getAge() {
-      return age;
-   }
-   public void setAge(int age) {
-      this.age = age;
-   }
-   public int getGender() {
-      return gender;
-   }
-   public void setGender(int gender) {
-      this.gender = gender;
-   }
-   public String getAddress() {
-      return address;
-   }
-   public void setAddress(String address) {
-      this.address = address;
-   }
-   public String getMember_type() {
-      return member_type;
-   }
-   public void setMember_type(String member_type) {
-      this.member_type = member_type;
-   }
+
+	private String id;
+	private int disabled_number;
+	
+	private String email;
+	private String name;
+	private int age;
+	private int gender;
+	private String address;
+	private String member_type;
+	private String vol_name;
+	private String disabled_name;
+	private String picture;
+	private int regist_number;
+	private int total_vol_time;
+	private int point;
+	private String callnumber;
+	
+	
+	public String getCallnumber() {
+		return callnumber;
+	}
+	public void setCallnumber(String callnumber) {
+		this.callnumber = callnumber;
+	}
+	public int getDisabled_number() {
+		return disabled_number;
+	}
+	public void setDisabled_number(int disabled_number) {
+		this.disabled_number = disabled_number;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getMember_type() {
+		return member_type;
+	}
+	public void setMember_type(String member_type) {
+		this.member_type = member_type;
+	}
 
    public String getPicture() {
       return picture;

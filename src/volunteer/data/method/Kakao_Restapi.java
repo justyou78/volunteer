@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -31,15 +32,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.java.Log;
+import volunteer.data.component.Component;
 
 
 @Repository
 @Log
 public class Kakao_Restapi {
 	
+	@Autowired
+	Component component;
 	
 	public JsonNode getAccessToken(String autorize_code) {
-		 
+		 System.out.println("test");
         final String RequestUrl = "https://kauth.kakao.com/oauth/token";
  
         final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
@@ -48,7 +52,7 @@ public class Kakao_Restapi {
  
         postParams.add(new BasicNameValuePair("client_id", "0b04594c8c451f296a17595e84141bd2"));
  
-        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:8081/volunteer/main_join/oauth.vol"));
+        postParams.add(new BasicNameValuePair("redirect_uri", "http://192.168.0.48:8081/volunteer/main_join/oauth.vol"));
  
         postParams.add(new BasicNameValuePair("code", autorize_code));
  

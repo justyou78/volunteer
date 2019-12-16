@@ -6,9 +6,18 @@
 <head>
     <meta charset="utf-8">
     <title>마커 클러스터러에 클릭이벤트 추가하기</title>
-    
+<%@ include file="../include/include.jsp" %>
 </head>
 <body>
+	<c:if test="${auth !=null }">
+		<script>
+				window.alert('${auth}');
+			
+		</script>
+		
+	</c:if>
+
+
 <p style="margin-top:-12px">
      사용한 데이터를 보시려면
     <em class="link">
@@ -16,6 +25,26 @@
     </em>
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
+${ message }
+<c:if test="${empty message}">
+
+	<form method="get" action="sendMessage.vol">
+		<input type="text"  placeholder="봉사시간" name=vol_time/>
+		<input type="submit"  value="도움 요청하기"/>
+	</form>
+</c:if>
+
+<c:if test="${message=='success' }">
+		<input type="button"  value="응답대기중"/>
+</c:if>
+<c:if test="${message=='fail'}">
+		
+		<form method="get" action="sendMessage.vol">
+			<input type="text"  placeholder="봉사시간" name=vol_time/>
+			<input type="submit"  value="도움 요청하기"/>
+		</form>
+		<p>주변에 사람이 없습니다.</p>
+</c:if>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=494e02c4821bde94e76161ca7fd542b2&libraries=clusterer"></script>
 <script>
@@ -63,6 +92,7 @@
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
     
+<<<<<<< HEAD
     marker.setMap(map);
 
 	 // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
@@ -80,6 +110,10 @@
 	       // 마커 위에 인포윈도우를 표시합니다
 	       infowindow.open(map, marker);  
 	 });
+=======
+    
+    
+>>>>>>> 2c98d4024cc3a4ace00b20bdba1d9c4c1cb593c0
     
 </script>
 </body>

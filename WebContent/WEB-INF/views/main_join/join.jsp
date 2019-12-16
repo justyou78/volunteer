@@ -16,15 +16,17 @@
 		
 	</select><br/>
 	이메일<input type="email"  name="email" placeholder="이메일 형식으로 아이디 입력해주세요."> <br/>
+	전화번호<input type="text"  name="callnumber" placeholder="전화번호 입력."> <br/>
+	
 	 나이 <input type="number" name="age" /> <br/>
 	성별 <select name="gender"  name="gender"><option value="1" >남</option><option value="2"> 여</option></select><br/>
-	<!-- <input type="text" id="sample4_postcode" placeholder="우편번호"> -->
+	<input type="hidden" id="sample4_postcode" placeholder="우편번호">
 <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
 <input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address">
 <span id="guide" style="color:#999;display:none"></span>
-<!-- <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
-<input type="text" id="sample4_detailAddress" placeholder="상세주소">
-<input type="text" id="sample4_extraAddress" placeholder="참고항목"> -->
+<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
+<input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
+<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -104,7 +106,7 @@
 			
 			if(mt.value==1){
 				
-				type.innerHTML='자격증 이름<input type="text" name="vol_name" /><br/> 자격증 번호<input type="text" name="regist_number_vol"/> ';
+				type.innerHTML='자격증 이름<input type="text" name="vol_name" /><br/> 자격증 번호<input type="text" name="regist_number"/> ';
 				
 			}
 			else if(mt.value==2){
