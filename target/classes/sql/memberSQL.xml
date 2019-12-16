@@ -42,6 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set email=#{email}, age=#{age}, gender=#{gender}, address=#{address}, vol_name=#{vol_name}, regist_number=#{regist_number} where id=#{id} 
 	</update>
 	
+	<select id="selectAllID" resultType="String">
+		select id from member
+	</select>
+	
 	
 	
 	

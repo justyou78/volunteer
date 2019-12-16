@@ -25,6 +25,7 @@ import volunteer.data.vo.MemberVO;
 @Controller
 @RequestMapping("/main_join/")
 public class MemberAction {
+	
 	@Inject
 	MemberDAOImpl memberDao;
 

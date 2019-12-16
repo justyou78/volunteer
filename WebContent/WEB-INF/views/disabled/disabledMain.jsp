@@ -38,7 +38,7 @@
 
     // 데이터를 가져오기 위해 jQuery를 사용합니다
     // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-    $.get("/volunteer/web/data/chicken.json", function(data) {
+    $.get("/volunteer/web/data/test.json", function(data) {
         // 데이터에서 좌표 값을 가지고 마커를 표시합니다
         // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
         var markers = $(data.positions).map(function(i, position) {
@@ -62,6 +62,25 @@
         // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
+    
+    marker.setMap(map);
+
+	 // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+	 var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	     iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+	
+	 // 인포윈도우를 생성합니다
+	 var infowindow = new kakao.maps.InfoWindow({
+	     content : iwContent,
+	     removable : iwRemoveable
+	 });
+	
+	 // 마커에 클릭이벤트를 등록합니다
+	 kakao.maps.event.addListener(marker, 'click', function() {
+	       // 마커 위에 인포윈도우를 표시합니다
+	       infowindow.open(map, marker);  
+	 });
+    
 </script>
 </body>
 </html>
