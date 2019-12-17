@@ -16,6 +16,7 @@
 		
 	</select><br/>
 	이메일<input type="email"  name="email" placeholder="이메일 형식으로 아이디 입력해주세요."> <br/>
+	비밀번호<input type="password" name="pw"/>
 	전화번호<input type="text"  name="callnumber" placeholder="전화번호 입력."> <br/>
 	
 	 나이 <input type="number" name="age" /> <br/>

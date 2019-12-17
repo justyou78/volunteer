@@ -52,7 +52,7 @@ public class Kakao_Restapi {
  
         postParams.add(new BasicNameValuePair("client_id", "0b04594c8c451f296a17595e84141bd2"));
  
-        postParams.add(new BasicNameValuePair("redirect_uri", "http://192.168.0.48:8081/volunteer/main_join/oauth.vol"));
+        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:8081/volunteer/main_join/oauth.vol"));
  
         postParams.add(new BasicNameValuePair("code", autorize_code));
  

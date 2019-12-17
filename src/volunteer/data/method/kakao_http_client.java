@@ -114,7 +114,7 @@ public class kakao_http_client {
 	public void readToJson(List<HashMap<String, String>> position) throws FileNotFoundException, IOException, ParseException{
 		
 		JSONParser parser = new JSONParser();
-		JSONObject object = (JSONObject) parser.parse(new FileReader("D:\\kbj\\workspace\\volunteer\\WebContent\\web\\data\\test.json")); // json 파싱
+		JSONObject object = (JSONObject) parser.parse(new FileReader("D:\\kbj\\workspace\\volunteer\\WebContent\\web\\data\\member.json")); // json 파싱
 		 
 		JSONArray list = (JSONArray) object.get("positions"); // 리스트에 담기
 
@@ -141,7 +141,7 @@ public class kakao_http_client {
 		// 파일 생성(덮어쓰기)
 		FileWriter file;
 	       try {
-	    	   file = new FileWriter("D:\\kbj\\workspace\\volunteer\\WebContent\\web\\data\\test.json");
+	    	   file = new FileWriter("D:\\kbj\\workspace\\volunteer\\WebContent\\web\\data\\member.json");
 	       	   file.write(obj.toJSONString());
 	       	   file.flush();
 	       	   file.close();

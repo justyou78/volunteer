@@ -21,7 +21,7 @@
 		  <!-- <form method="POST" action="https://kauth.kakao.com/oauth/authorize?client_id=0b04594c8c451f296a17595e84141bd2&redirect_uri=http://localhost:8081/volunteer/main_join/oauth.vol&response_type=code">
         	<input type="submit" value="전송"/>
         </form> -->
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=0b04594c8c451f296a17595e84141bd2&redirect_uri=http://192.168.0.48:8081/volunteer/main_join/oauth.vol&response_type=code">
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=0b04594c8c451f296a17595e84141bd2&redirect_uri=http://localhost:8081/volunteer/main_join/oauth.vol&response_type=code">
             <img src="/volunteer/img/kakao_login_btn_small.png">
         </a>
         <!-- <img alt="" src="http://k.kakaocdn.net/dn/bdxYWy/btqz0GfFKbr/QOlFfVwItHqviC2rEbbEP1/img_640x640.jpg"> -->

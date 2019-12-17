@@ -57,7 +57,7 @@ public class LoginAOP {
 						session.setAttribute("auth", "no.");
 						
 					}
-					return "redirect:/disabled/disabledMain.vol";
+					return "redirect:/disabled/disabledMain.vol?id="+id;
 				}
 				
 				

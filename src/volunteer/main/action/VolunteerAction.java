@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.extern.java.Log;
+import volunteer.data.dao.ConnectDAOImpl;
 import volunteer.data.dao.MemberDAO;
 import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.dao.VolunteerDAOImpl;
@@ -42,9 +43,12 @@ public class VolunteerAction {
 	SimpleDateFormat sdf;
 	@Autowired
 	Kakao_Restapi kakao_restapi;
+	@Autowired
+	ConnectDAOImpl connectDao;
 	
 	@RequestMapping("connect")
-	public String connect() {
+	public String connect(String disabled_id,Model model) {
+		model.addAttribute("disabled_id",disabled_id);
 		return "volunteer/connect";
 	}
 
@@ -99,6 +103,31 @@ public class VolunteerAction {
 		MemberVO vo = memberDao.selectAll(id);
 		model.addAttribute("memberVO", vo);
 		return "volunteer/change_info";
+	}
+	
+	@RequestMapping("connect_pro")
+	public String connect_pro(MemberVO vo, Model model,String disabled_id)
+	{
+		MemberVO memberVO =memberDao.selectAllFromEmail(vo.getEmail());
+		System.out.println(disabled_id);
+		
+		if(memberVO != null && memberVO.getEmail() != null) {
+			if(memberVO.getPw().equals(vo.getPw())) {
+				System.out.println(memberVO.getId());
+				connectDao.updateCheck_vol(memberVO.getId(),disabled_id);
+				
+				
+				
+			}else {
+				model.addAttribute("noPw","비밀번호가 일치하지 않습니다.");
+			}
+		}
+		else {
+			model.addAttribute("noEmail","이메일이 존재하지 않습니다.");
+			
+		}
+		model.addAttribute("disabled_id",disabled_id);
+		return "volunteer/connect";
 	}
 
 	@RequestMapping("change_info_Pro")

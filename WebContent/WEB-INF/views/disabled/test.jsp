@@ -12,7 +12,7 @@
 <p style="margin-top:-12px">
      사용한 데이터를 보시려면
     <em class="link">
-       <a href="/volunteer/web/data/test.json" target="_blank">여기를 클릭하세요!</a>
+       <a href="/volunteer/web/data/member.json" target="_blank">여기를 클릭하세요!</a>
     </em>
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
@@ -48,7 +48,7 @@
 
     // 데이터를 가져오기 위해 jQuery를 사용합니다
     // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-    $.get("/volunteer/web/data/test.json", function(data) {
+    $.get("/volunteer/web/data/member.json", function(data) {
         // 데이터에서 좌표 값을 가지고 마커를 표시합니다
         // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
         //var markers = $(data.positions).map(function(i, position) {

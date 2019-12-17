@@ -5,21 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ConnectVO {
-	private String vol_email;
-	private String disabled_email;
+	private String vol_id;
+	private String disabled_id;
 	private int vol_check;
 	private int disabled_check;
-	public String getVol_email() {
-		return vol_email;
+	
+	public String getVol_id() {
+		return vol_id;
 	}
-	public void setVol_email(String vol_email) {
-		this.vol_email = vol_email;
+	public void setVol_id(String vol_id) {
+		this.vol_id = vol_id;
 	}
-	public String getDisabled_email() {
-		return disabled_email;
+	public String getDisabled_id() {
+		return disabled_id;
 	}
-	public void setDisabled_email(String disabled_email) {
-		this.disabled_email = disabled_email;
+	public void setDisabled_id(String disabled_id) {
+		this.disabled_id = disabled_id;
 	}
 	public int getVol_check() {
 		return vol_check;
