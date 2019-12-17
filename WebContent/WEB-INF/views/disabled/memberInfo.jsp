@@ -16,11 +16,6 @@
 	나이 >> ${vo.age }<br />
 	성별 >> ${vo.gender }<br />
 	주소 >> ${vo.address }<br />
-	<c:if test="${vo.picture == null}">
-		<img src="\img\bono.png">
-	</c:if>
-	<c:if test="${vo.picture != null}">
-		<img src="${vo.picture }">
-	</c:if>
+	사진 >> <img src="${vo.picture }">
 </body>
 </html>

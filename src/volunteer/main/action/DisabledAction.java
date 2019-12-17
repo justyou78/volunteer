@@ -54,21 +54,7 @@ public class DisabledAction {
 	}
 	
 	@RequestMapping("test")
-	public String test() throws ClientProtocolException, IOException, ParseException {
-		String id = "1229381609";
-		kakao_http_client khc = new kakao_http_client();
-		List<String> ids = new ArrayList<String>(); // 멤버테이블에 있는 모든 아이디 가져오기
-		MemberVO vo = null;
-		ids.add(id);
-		HashMap<String, String> hs = null; // 제이슨에 넣을 정보들
-		List<HashMap<String, String>> position = new ArrayList<HashMap<String,String>>(); // 제이슨에 넣을 정보들을 보관할 리스트
-		for(String str : ids) {
-			vo = memdao.selectAll(str); // 아이디 값으로 모든 정보 가져오기
-			hs = khc.get(vo); // 주소로 좌표값 받기
-			position.add(hs); // 리스트에 담기
-		}
-		khc.readToJson(position); // 리스트 json 파일 생성
-		
+	public String test(){
 		return "disabled/test";
 	}
 	
@@ -140,10 +126,15 @@ public class DisabledAction {
 	
 	@RequestMapping("memberInfo")
 	public String memberInfo(Model model, String id) {
-		String tid = "1229381609";
-		System.out.println(id);
-		if(tid != null) {
-			MemberVO vo = memdao.selectAll(tid);
+		if(id != null) {
+			MemberVO vo = memdao.selectAll(id);
+			if(vo.getPicture() == null) {
+				if(vo.getGender() == 1) {
+					vo.setPicture("../img/bono.png");
+				}else {
+					vo.setPicture("../img/poro.png");
+				}
+			}
 			model.addAttribute("vo", vo);
 		}
 		return "disabled/memberInfo";

@@ -20,7 +20,7 @@
     Kakao.init('494e02c4821bde94e76161ca7fd542b2');
     // 카카오 로그인 버튼을 생성합니다.
     function navi(){
-        Kakao.Navi.share({
+        Kakao.Navi.start({
             name: "현대백화점 판교점",
             x: 127.11205203011632,
             y: 37.39279717586919,
@@ -29,6 +29,6 @@
     }
   //]]>
 </script>
-<h1>왜안떠</h1>
+
 </body>
 </html>
