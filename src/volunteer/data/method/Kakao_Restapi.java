@@ -42,7 +42,7 @@ public class Kakao_Restapi {
 	public JsonNode getAccessToken(String autorize_code) {
 		 System.out.println("test");
         final String RequestUrl = "https://kauth.kakao.com/oauth/token";
- 
+
         final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
  
         postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -105,7 +105,7 @@ public class Kakao_Restapi {
             final HttpResponse response = client.execute(post);
  
             ObjectMapper mapper = new ObjectMapper();
- 
+            
             returnNode = mapper.readTree(response.getEntity().getContent());
  
         } catch (UnsupportedEncodingException e) {

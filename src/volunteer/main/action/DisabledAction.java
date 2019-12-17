@@ -1,22 +1,32 @@
 package volunteer.main.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.JsonObject;
 
 import volunteer.data.dao.ConnectDAOImpl;
 import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.method.Coolsms_Restapi;
+import volunteer.data.vo.ConnectVO;
 import volunteer.data.vo.MemberVO;
+
 
 @Controller
 @RequestMapping("/disabled/")
@@ -48,28 +58,91 @@ public class DisabledAction {
 		return "disabled/test";
 	}
 	@RequestMapping("sendMessage")
-	public String sendMessage(HttpSession session, Model model, String vol_time) {
+	@ResponseBody
+	public String sendMessage(HttpServletRequest request, HttpSession session, Model model, String vol_time) {
 		String st =coolsms_api.sendSMS(session,vol_time);
 		System.out.println("받은 값" +st);
 		if(st.equals("success")) {
 			System.out.println("성공");
-			model.addAttribute("message","success");
+			request.setAttribute("message", "success");
+			return "success";
 		}
 		else {
-			model.addAttribute("message","fail");
+			request.setAttribute("message", "success");
+			return "fail";
 		}
-		return "disabled/disabledMain";
+		
 	}
-	@RequestMapping("getConnect")
 	@ResponseBody
-	public void getConnect(HttpSession session)
+	@RequestMapping(value = "getConnect", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
+	public Object  getConnect(HttpSession session)
 	{
+		
 		String id = (String)session.getAttribute("id");
+		List<ConnectVO> list = connectDao.selectAll(id);
+		System.out.println(list.size()+"사이즈");
+		List<MemberVO> returnList = new ArrayList<MemberVO>();
+		if(list == null || list.size() ==0) {
+			return null;
+		}
+		
+		System.out.println("잘왔다.1");
+		for (ConnectVO vo: list) {
+			
+			returnList.add(memberDao.selectAll(vo.getVol_id())); 
+			connectDao.deleteConnect(vo.getVol_id(), id);
+			
+		}
+		System.out.println("잘왔다2.");
+		JSONArray jarray = new JSONArray();
+		for (MemberVO vo : returnList) {
+			JSONObject data = new JSONObject();
+			data.put("name", vo.getName());
+			data.put("callnumber", vo.getCallnumber());
+			data.put("address", vo.getAddress());
+			data.put("age", vo.getAge());
+			data.put("gender", vo.getGender());
+			data.put("id",vo.getId());
+			jarray.add(data);
+			
+			
+			
+			
+			
+		}
+		JSONObject resultObject = new JSONObject();
+		resultObject.put("member", jarray);
+		
+		System.out.println(resultObject);
+
+		String a = "Dk";
+        return resultObject;
+        
+		/*
+		 * JSONArray mapResult = JSONArray.fromObject(returnList);
+		 * model.addAttribute("mapResult", mapResult);
+		 * System.out.println(test.toString()+"테스트");
+		 */
 		
 		
 		
 		 
 	}
+	
+	@RequestMapping("resultMessage")
+	@ResponseBody
+	public String resultMessage(@RequestBody String  id, HttpSession session) {
+		int idx = id.indexOf('=')+1;
+		id = id.substring(idx,id.length());
+		System.out.println(id.toString()+"마지막 메세지");
+		String st =coolsms_api.sendSMSOne(id.toString());
+		System.out.println(st);
+		
+		return "success";
+		
+	}
+	
+	
 	@RequestMapping("connect")
 	public String connect(HttpServletRequest request, String connect,Model model,HttpSession session, String disabled_id) {
 //		String path =	(String)request.getContextPath();

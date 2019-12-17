@@ -14,4 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="insert_vol" parameterType="hashmap" >
 		update vol_connect set vol_check=1 where vol_id=#{vol_id} and disabled_id=#{disabled_id}
 	</update>
+	
+	<select id="selectAll" parameterType="String" resultType="connectVO">
+		select * from vol_connect where disabled_id=#{id} and vol_check=1
+	</select>
+	<delete id="deleteConnect" parameterType="hashmap">
+		delete from vol_connect where disabled_id=#{disabled_id} and vol_id=#{vol_id}
+	</delete>
+
 </mapper>
