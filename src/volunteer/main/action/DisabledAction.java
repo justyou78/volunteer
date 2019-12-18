@@ -1,9 +1,7 @@
 package volunteer.main.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +21,7 @@ import com.google.gson.JsonObject;
 
 import volunteer.data.dao.ConnectDAOImpl;
 import volunteer.data.dao.MemberDAOImpl;
+import volunteer.data.method.kakao_http_client;
 import volunteer.data.method.Coolsms_Restapi;
 import volunteer.data.vo.ConnectVO;
 import volunteer.data.vo.MemberVO;
@@ -40,6 +39,9 @@ public class DisabledAction {
 	ConnectDAOImpl connectDao;
 	
 	
+	@Autowired
+	MemberDAOImpl memdao;
+	
 	@RequestMapping("disabledMain")
 	public String disabledMain(HttpSession session,Model model) {
 		
@@ -53,10 +55,10 @@ public class DisabledAction {
 	}
 	
 	@RequestMapping("test")
-	public String test(@RequestParam String str) {
-		System.out.println(str);
+	public String test(){
 		return "disabled/test";
 	}
+	
 	@RequestMapping("sendMessage")
 	@ResponseBody
 	public String sendMessage(HttpServletRequest request, HttpSession session, Model model, String vol_time) {
@@ -186,5 +188,20 @@ public class DisabledAction {
 		
 	}
 	
+	@RequestMapping("memberInfo")
+	public String memberInfo(Model model, String id) {
+		if(id != null) {
+			MemberVO vo = memdao.selectAll(id);
+			if(vo.getPicture() == null) {
+				if(vo.getGender() == 1) {
+					vo.setPicture("../img/bono.png");
+				}else {
+					vo.setPicture("../img/poro.png");
+				}
+			}
+			model.addAttribute("vo", vo);
+		}
+		return "disabled/memberInfo";
+	}
 	
 }

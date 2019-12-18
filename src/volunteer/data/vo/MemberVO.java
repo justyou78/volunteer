@@ -4,6 +4,7 @@ package volunteer.data.vo;
 
 
 public class MemberVO {
+
 	private String id;
 	private int disabled_number;
 	
@@ -79,56 +80,56 @@ public class MemberVO {
 		this.member_type = member_type;
 	}
 
-	public String getPicture() {
-		return picture;
-	}
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-	
-	
-	public String getVol_name() {
-		return vol_name;
-	}
-	public void setVol_name(String vol_name) {
-		this.vol_name = vol_name;
-	}
-	public String getDisabled_name() {
-		return disabled_name;
-	}
-	public void setDisabled_name(String disabled_name) {
-		this.disabled_name = disabled_name;
-	}
-	
-	
-	public int getRegist_number() {
-		return regist_number;
-	}
-	public void setRegist_number(int regist_number) {
-		this.regist_number = regist_number;
-	}
-	public int getTotal_vol_time() {
-		return total_vol_time;
-	}
-	public void setTotal_vol_time(int total_vol_time) {
-		this.total_vol_time = total_vol_time;
-	}
-	public int getPoint() {
-		return point;
-	}
-	public void setPoint(int point) {
-		this.point = point;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	
-	
-	
-	
-	
+   public String getPicture() {
+      return picture;
+   }
+   public void setPicture(String picture) {
+      this.picture = picture;
+   }
+   
+   
+   public String getVol_name() {
+      return vol_name;
+   }
+   public void setVol_name(String vol_name) {
+      this.vol_name = vol_name;
+   }
+   public String getDisabled_name() {
+      return disabled_name;
+   }
+   public void setDisabled_name(String disabled_name) {
+      this.disabled_name = disabled_name;
+   }
+   
+   
+   public int getRegist_number() {
+      return regist_number;
+   }
+   public void setRegist_number(int regist_number) {
+      this.regist_number = regist_number;
+   }
+   public int getTotal_vol_time() {
+      return total_vol_time;
+   }
+   public void setTotal_vol_time(int total_vol_time) {
+      this.total_vol_time = total_vol_time;
+   }
+   public int getPoint() {
+      return point;
+   }
+   public void setPoint(int point) {
+      this.point = point;
+   }
+   public String getId() {
+      return id;
+   }
+   public void setId(String id) {
+      this.id = id;
+   }
+   
+   
+   
+   
+   
+   
 }

@@ -43,6 +43,10 @@ public class MemberDAOImpl implements MemberDAO {
 			
 		}
 	}
+	public List<String> selectAllID(){
+		List<String> id = sqlSession.selectList("member.selectAllID");
+		return id;
+	}
 	public List selectVolFromAddress(HashMap<String, String> hm) {
 		List<MemberVO> list = sqlSession.selectList("member.selectVolFromAddress", hm);
 		return list;

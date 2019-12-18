@@ -55,9 +55,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	
-	
-	
-	
-	
+	<select id="selectAllID" resultType="String">
+		select id from member
+	</select>
 	
 </mapper>

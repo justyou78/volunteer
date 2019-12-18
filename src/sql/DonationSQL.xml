@@ -10,4 +10,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert" parameterType="donationVO">
 		insert into DONATION values(#{aid},#{user_id},#{item_name},#{quantity},#{total},#{tax_free},#{time},#{payment_method_type})
 	</insert>
+	
 </mapper>

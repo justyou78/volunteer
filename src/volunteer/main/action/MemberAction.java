@@ -2,13 +2,19 @@ package volunteer.main.action;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.client.ClientProtocolException;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +26,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import volunteer.data.dao.MemberDAO;
 import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.method.Kakao_Restapi;
+import volunteer.data.method.kakao_http_client;
 import volunteer.data.vo.MemberVO;
 
 @Controller
 @RequestMapping("/main_join/")
 public class MemberAction {
+	
 	@Inject
 	MemberDAOImpl memberDao;
 
@@ -56,12 +64,26 @@ public class MemberAction {
 	
 	//추가 입력사항 DB에 저장하는 Controller
 	@RequestMapping("join_pro")
-	public String join_pro(MemberVO vo, HttpSession session) {
+	public String join_pro(MemberVO vo, HttpSession session, Model model) throws ClientProtocolException, IOException, ParseException {
 		
 		System.out.println(vo.getMember_type()+"멤버타입");
 		String id =(String)session.getAttribute("id");
 		vo.setId(id);
 		memberDao.updateInfo(vo);
+		
+		// member.json에 좌표 추가
+		kakao_http_client khc = new kakao_http_client();
+		List<String> ids = new ArrayList<String>(); // 멤버테이블에 있는 모든 아이디 가져오기
+		ids.add(vo.getId());
+		HashMap<String, String> hs = null; // 제이슨에 넣을 정보들
+		List<HashMap<String, String>> position = new ArrayList<HashMap<String,String>>(); // 제이슨에 넣을 정보들을 보관할 리스트
+		for(String str : ids) {
+			vo = memberDao.selectAll(str); // 아이디 값으로 모든 정보 가져오기
+			hs = khc.get(vo); // 주소로 좌표값 받기
+			position.add(hs); // 리스트에 담기
+		}
+		khc.readToJson(position); // 리스트 member.json 파일 생성
+		
 		if(vo.getMember_type().equals("1")) {
 			return "redirect:/volunteer/main.vol";
 		}
