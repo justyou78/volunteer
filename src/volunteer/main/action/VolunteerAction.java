@@ -111,9 +111,13 @@ public class VolunteerAction {
 		MemberVO memberVO =memberDao.selectAllFromEmail(vo.getEmail());
 		System.out.println(disabled_id);
 		
+		
+		//이메일과 패스워드가 일치하는지 확인.
 		if(memberVO != null && memberVO.getEmail() != null) {
 			if(memberVO.getPw().equals(vo.getPw())) {
 				System.out.println(memberVO.getId());
+				System.out.println(memberVO.getEmail());
+				System.out.println(connectDao);
 				connectDao.updateCheck_vol(memberVO.getId(),disabled_id);
 				
 				
@@ -185,7 +189,7 @@ public class VolunteerAction {
 
 	@RequestMapping("kakaoPaySuccess")
 	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpSession session) throws ParseException {
-		System.out.println(pg_token);
+		System.out.println(pg_token+"이게 토큰");
 		JsonNode infoNode=kakao_restapi.kakaoPayInfo(pg_token, session, (String)session.getAttribute("tid"));
 		System.out.println(infoNode);
 		VolunteerDao.insert_donation(infoNode,session);

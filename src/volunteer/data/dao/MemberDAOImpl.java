@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import volunteer.data.vo.ListVO;
 import volunteer.data.vo.MemberVO;
 
 
@@ -43,6 +44,10 @@ public class MemberDAOImpl implements MemberDAO {
 			
 		}
 	}
+	public void updateVolTime(ListVO vo) {
+		sqlSession.update("member.updateVolTime",vo);
+	}
+	
 	public List<String> selectAllID(){
 		List<String> id = sqlSession.selectList("member.selectAllID");
 		return id;

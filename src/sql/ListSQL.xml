@@ -12,6 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from vol_list where vol_id=#{id}  and  TO_CHAR(time, 'yyyy-MM')=#{sysdate}
 	</select>
 	
+	<insert id="insert" parameterType="listVO">
+		insert into vol_list values(#{vol_id},#{disabled_id},#{vol_time},#{content},sysdate)
+	</insert>
+	
 	
 	
 	

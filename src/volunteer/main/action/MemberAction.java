@@ -179,9 +179,6 @@ public class MemberAction {
 	public String kakaoLogin02(@RequestParam("code") String code, Model model, HttpSession session, String getId) {
 
 		
-		
-		
-		
 		// 카카오 rest api 객체 선언
 		Kakao_Restapi kakao_restapi = new Kakao_Restapi();
 		// 결과값을 node에 담아줌

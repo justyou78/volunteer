@@ -53,6 +53,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *  from member where email=#{email}
 	</select>
 	
+	<update id="updateVolTime" parameterType="listVO">
+		<selectKey resultType="int" keyProperty="total_vol_time" order="BEFORE">
+        SELECT total_vol_time FROM member where id=#{vol_id}        
+    	</selectKey>
+		update member set total_vol_time =
+		<if test="total_vol_time== null">
+			#{vol_time}
+		</if>
+		<if test="total_vol_time != null">
+			total_vol_time + #{vol_time} 
+		</if>
+		where id =#{vol_id}
+	</update>
+	
 	
 	
 	<select id="selectAllID" resultType="String">

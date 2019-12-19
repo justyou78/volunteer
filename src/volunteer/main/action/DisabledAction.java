@@ -1,11 +1,14 @@
 package volunteer.main.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.client.ClientProtocolException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,11 @@ import com.google.gson.JsonObject;
 
 import volunteer.data.dao.ConnectDAOImpl;
 import volunteer.data.dao.MemberDAOImpl;
+import volunteer.data.dao.VolListDaoImpl;
 import volunteer.data.method.kakao_http_client;
 import volunteer.data.method.Coolsms_Restapi;
 import volunteer.data.vo.ConnectVO;
+import volunteer.data.vo.ListVO;
 import volunteer.data.vo.MemberVO;
 
 
@@ -41,15 +46,30 @@ public class DisabledAction {
 	
 	@Autowired
 	MemberDAOImpl memdao;
+	@Autowired
+	VolListDaoImpl volListDao;
+	
 	
 	@RequestMapping("disabledMain")
-	public String disabledMain(HttpSession session,Model model) {
+	public String disabledMain(HttpSession session,Model model) throws ClientProtocolException, IOException {
 		
 		if(session.getAttribute("auth") !=null ) {
 			System.out.println("진입");
 			model.addAttribute("auth","봉사자만 접근 할 수 있습니다.");
 			session.removeAttribute("auth");
 		}
+		String id = (String) session.getAttribute("id");
+		MemberVO vo = memberDao.selectAll(id);
+	      kakao_http_client khc = new kakao_http_client();
+	      HashMap<String, String> hs = khc.get(vo);
+	      double x = Double.parseDouble(hs.get("x").replaceAll("\"", "")); 
+	      double y = Double.parseDouble(hs.get("y").replaceAll("\"", ""));
+	      
+	      System.out.println("x좌표 >> " + x);
+	      System.out.println("y좌표 >> " + y);
+	      
+	      model.addAttribute("x",x);
+	      model.addAttribute("y",y);
 		
 		return "disabled/disabledMain";
 	}
@@ -133,10 +153,12 @@ public class DisabledAction {
 	
 	@RequestMapping("resultMessage")
 	@ResponseBody
-	public String resultMessage(@RequestBody String  id, HttpSession session) {
+	public String resultMessage(@RequestBody String  id, HttpSession session) throws ClientProtocolException, IOException {
 		int idx = id.indexOf('=')+1;
 		id = id.substring(idx,id.length());
 		System.out.println(id.toString()+"마지막 메세지");
+		
+		
 		String st =coolsms_api.sendSMSOne(id.toString());
 		System.out.println(st);
 		
@@ -144,6 +166,21 @@ public class DisabledAction {
 		
 	}
 	
+	@RequestMapping("insert_vol")
+	@ResponseBody
+	public String insert_vol(@RequestBody ListVO vo, HttpSession session) {
+		String id=(String) session.getAttribute("id");
+		vo.setDisabled_id(id);
+		
+		volListDao.insert_vol_list(vo);
+		
+		
+		memberDao.updateVolTime(vo);
+		return "성공";
+		
+		
+		
+	}
 	
 	@RequestMapping("connect")
 	public String connect(HttpServletRequest request, String connect,Model model,HttpSession session, String disabled_id) {

@@ -206,7 +206,7 @@ public class Kakao_Restapi {
 		 
 		 
 		 String token = (String)httpSession.getAttribute("token");
-		 
+		 System.out.println(token+"세션내부토큰");
 		 post.addHeader("Authorization", "Bearer "+token);
 		 post.addHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		 
@@ -219,9 +219,9 @@ public class Kakao_Restapi {
 		 postParams.add(new BasicNameValuePair("quantity", "1"));
 		 postParams.add(new BasicNameValuePair("total_amount", money));
 		 postParams.add(new BasicNameValuePair("tax_free_amount", "0"));
-		 postParams.add(new BasicNameValuePair("approval_url", "http://localhost:8081/volunteer/volunteer/kakaoPaySuccess.vol"));
-		 postParams.add(new BasicNameValuePair("cancel_url", "http://localhost:8081/volunteer/volunteer/kakaoPayCancel.vol"));
-		 postParams.add(new BasicNameValuePair("fail_url", "http://localhost:8081/volunteer/volunteer/kakaoPayFail.vol"));
+		 postParams.add(new BasicNameValuePair("approval_url", "http://192.168.0.48:8081/volunteer/volunteer/kakaoPaySuccess.vol"));
+		 postParams.add(new BasicNameValuePair("cancel_url", "http://192.168.0.48:8081/volunteer/volunteer/kakaoPayCancel.vol"));
+		 postParams.add(new BasicNameValuePair("fail_url", "http://192.168.0.48:8081/volunteer/volunteer/kakaoPayFail.vol"));
 		 
 		 
 		 JsonNode returnNode = null;
