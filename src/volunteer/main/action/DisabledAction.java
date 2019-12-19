@@ -241,4 +241,29 @@ public class DisabledAction {
 		return "disabled/memberInfo";
 	}
 	
+	@RequestMapping("brief")
+	   public String brief(Model model, String id) {
+	      if(id != null) {
+	         MemberVO vo = memdao.selectAll(id);
+	         String gender = "";
+	         if(vo.getPicture() == null) {
+	            if(vo.getGender() == 1) {
+	               vo.setPicture("../img/bono.png");
+	            }else {
+	               vo.setPicture("../img/poro.png");
+	            }
+	         }
+	         if(vo.getGender() == 1) {
+	            gender = "남자";
+	         }else {
+	            gender = "여자";
+	         }
+	         model.addAttribute("vo", vo);
+	         model.addAttribute("gender", gender);
+	      }
+	      return "disabled/brief";
+	   }
+	
+	
+	
 }

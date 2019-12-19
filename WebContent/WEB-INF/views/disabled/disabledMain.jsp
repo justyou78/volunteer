@@ -247,14 +247,14 @@
 
 	</form>
 
-	   <!-- 맵 -->
+   <!-- 맵 -->
    <div id="map" style="float: right; width: 80%; height: 700px;"></div>
    
    
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=494e02c4821bde94e76161ca7fd542b2&libraries=clusterer"></script>
 <script type="text/javascript">
    function newopen(id) {
-      window.open('http://192.168.0.48:8081/volunteer/disabled/memberInfo.vol?id='+id+'', 'info', 'width=600, height=600');
+      window.open('http://localhost:8081/volunteer/disabled/memberInfo.vol?id='+id+'', 'info', 'width=600, height=600');
    }
 </script>
 
@@ -289,21 +289,20 @@
            var marker = new kakao.maps.Marker({
                 position : new kakao.maps.LatLng(position.lat, position.lng)
             });
-           var iwContent = '<div style="padding:5px;">'
-                +position.name+'<br/>'
-                +position.gender+'<br/>'
-                +position.age+'<br/>'
-                +position.address+
-                '<img src="'+position.img+'"/><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                 iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-           var infowindow = new kakao.maps.InfoWindow({
-               content : iwContent,
-               removable : iwRemoveable
-           });
 
            kakao.maps.event.addListener(marker, 'click', function() {
-                 infowindow.open(map, marker);  
+               $.ajax({
+                  url : "http://192.168.0.48:8081/volunteer/disabled/brief.vol?id="+position.id,
+                  success : function(data){
+                       var iwContent = data+'<div style="padding:5px;"><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+                       var infowindow = new kakao.maps.InfoWindow({
+                           content : iwContent,
+                           removable : iwRemoveable
+                       });
+                          infowindow.open(map, marker);  
+                  }
+               });
            });
             return marker;
         });
@@ -347,26 +346,24 @@ $("#submit").click(function(){
       url : "/volunteer/web/data/member.json",
       success : function(data){
          var markers = $(data.positions).map(function(i, position) {
-            if(gender == position.gender && position.age >= age1 && position.age < age2){
+            if(gender == position.gender && position.age >= age1 && position.age <= age2){
                  var marker = new kakao.maps.Marker({
                       position : new kakao.maps.LatLng(position.lat, position.lng)
                   });
-                 var iwContent = '<div style="padding:5px;">'
-                      +position.name+'<br/>'
-                      +position.gender+'<br/>'
-                      +position.age+'<br/>'
-                      +position.address+
-                      '<img src="'+position.img+'"/><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>', 
-                       iwRemoveable = true; 
-   
-                 var infowindow = new kakao.maps.InfoWindow({
-                     content : iwContent,
-                     removable : iwRemoveable
-                 });
-   
                  kakao.maps.event.addListener(marker, 'click', function() {
-                       infowindow.open(map, marker);  
-                 });
+                  $.ajax({
+                     url : "http://192.168.0.48:8081/volunteer/disabled/brief.vol?id="+position.id,
+                     success : function(data){
+                          var iwContent = data+'<div style="padding:5px;"><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                               iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+                          var infowindow = new kakao.maps.InfoWindow({
+                              content : iwContent,
+                              removable : iwRemoveable
+                          });
+                             infowindow.open(map, marker);  
+                     }
+                  });
+              });
                   return marker;
             }
            });
@@ -376,6 +373,7 @@ $("#submit").click(function(){
 });
 $("#clear").click(function(){
     clusterer.clear();
+    var check = true;
    $.ajax({
       url : "/volunteer/web/data/member.json",
       success : function(data){
@@ -383,22 +381,29 @@ $("#clear").click(function(){
               var marker = new kakao.maps.Marker({
                    position : new kakao.maps.LatLng(position.lat, position.lng)
                });
-              var iwContent = '<div style="padding:5px;">'
-                   +position.name+'<br/>'
-                   +position.gender+'<br/>'
-                   +position.age+'<br/>'
-                   +position.address+
-                   '<img src="'+position.img+'"/><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>', 
-                    iwRemoveable = true; 
-
-              var infowindow = new kakao.maps.InfoWindow({
-                  content : iwContent,
-                  removable : iwRemoveable
-              });
-
               kakao.maps.event.addListener(marker, 'click', function() {
-                    infowindow.open(map, marker);  
-              });
+            	  if(check){
+            		 check = false;
+	            	$.ajax({
+	                  url : "http://192.168.0.48:8081/volunteer/disabled/brief.vol?id="+position.id,
+	                  success : function(data){
+	                       var iwContent = data+'<div style="padding:5px;"><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	                            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+	                       var infowindow = new kakao.maps.InfoWindow({
+	                           content : iwContent,
+	                           removable : iwRemoveable
+	                       });
+	                            
+	                          infowindow.open(map, marker);  
+	                          
+	                  }
+	               });
+            	  }
+            	  else{
+            			 check = true
+            		  infowindow.close();
+            	  }
+           });
                return marker;
            });
            clusterer.addMarkers(markers);
@@ -406,6 +411,7 @@ $("#clear").click(function(){
    });
 });
 </script>
+<a href="http://192.168.0.48:8081/volunteer/main_join/main.vol">메인으로</a>
 
 </body>
 </html>
