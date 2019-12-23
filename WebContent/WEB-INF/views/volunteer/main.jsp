@@ -48,8 +48,20 @@
 	
 	</table>
 	
-	
-	
+	<table>
+		<tr>
+			<td>후원자아이디</td>
+			<td>후원자 닉네임</td>
+			<td>봉사시간</td>
+		</tr>	
+		<c:forEach var="donationVO" items="${donationList}">
+		<tr>
+			<td> ${donationVO.user_id}</td>
+			<td>${donationVO.item_name} </td>
+			<td>${donationVO.total} </td>
+		</tr>
+		</c:forEach>
+	</table>
 	<input type="submit" value="찾기"/>
 	</form>
 

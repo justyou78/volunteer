@@ -37,27 +37,25 @@ import volunteer.data.vo.MemberVO;
 public class DisabledAction {
 	@Autowired
 	Coolsms_Restapi coolsms_api;
-	
 	@Autowired
 	MemberDAOImpl memberDao;
 	@Autowired
 	ConnectDAOImpl connectDao;
-	
-	
 	@Autowired
 	MemberDAOImpl memdao;
 	@Autowired
 	VolListDaoImpl volListDao;
 	
 	
+	//장애인 메인화면
 	@RequestMapping("disabledMain")
 	public String disabledMain(HttpSession session,Model model) throws ClientProtocolException, IOException {
 		
 		if(session.getAttribute("auth") !=null ) {
-			System.out.println("진입");
-			model.addAttribute("auth","봉사자만 접근 할 수 있습니다.");
+			model.addAttribute("auth","봉사자 페이지에 접근 할 수 없습니다.");
 			session.removeAttribute("auth");
 		}
+		
 		String id = (String) session.getAttribute("id");
 		MemberVO vo = memberDao.selectAll(id);
 	      kakao_http_client khc = new kakao_http_client();
@@ -79,6 +77,8 @@ public class DisabledAction {
 		return "disabled/test";
 	}
 	
+	
+	//주변 봉사자에게 메세지를 보내는 Ajax Controller
 	@RequestMapping("sendMessage")
 	@ResponseBody
 	public String sendMessage(HttpServletRequest request, HttpSession session, Model model, String vol_time) {
@@ -95,6 +95,8 @@ public class DisabledAction {
 		}
 		
 	}
+	
+	//봉사자의 봉사신청이 들어와서 장애인 화면에 List를 띄워주는 Ajax Controller
 	@ResponseBody
 	@RequestMapping(value = "getConnect", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
 	public Object  getConnect(HttpSession session)
@@ -139,18 +141,10 @@ public class DisabledAction {
 
 		String a = "Dk";
         return resultObject;
-        
-		/*
-		 * JSONArray mapResult = JSONArray.fromObject(returnList);
-		 * model.addAttribute("mapResult", mapResult);
-		 * System.out.println(test.toString()+"테스트");
-		 */
-		
-		
-		
-		 
 	}
 	
+	
+	//장애인이 List에서 봉사자를 선택하여 메세지를 전송하는 Ajax Controller
 	@RequestMapping("resultMessage")
 	@ResponseBody
 	public String resultMessage(@RequestBody String  id, HttpSession session) throws ClientProtocolException, IOException {
@@ -166,6 +160,7 @@ public class DisabledAction {
 		
 	}
 	
+	//봉사가 완료된 후, Database에 내용을 저장하는 Ajax Controller
 	@RequestMapping("insert_vol")
 	@ResponseBody
 	public String insert_vol(@RequestBody ListVO vo, HttpSession session) {
@@ -181,6 +176,7 @@ public class DisabledAction {
 		
 		
 	}
+	
 	
 	@RequestMapping("connect")
 	public String connect(HttpServletRequest request, String connect,Model model,HttpSession session, String disabled_id) {
@@ -225,6 +221,8 @@ public class DisabledAction {
 		
 	}
 	
+	
+	//지도에 각 유저의 상세정보를 보여주는 Controller
 	@RequestMapping("memberInfo")
 	public String memberInfo(Model model, String id) {
 		if(id != null) {
@@ -241,6 +239,8 @@ public class DisabledAction {
 		return "disabled/memberInfo";
 	}
 	
+	
+	//지도에 유저의 간략한 정보를 보여주는 Controller
 	@RequestMapping("brief")
 	   public String brief(Model model, String id) {
 	      if(id != null) {

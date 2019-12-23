@@ -10,5 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert" parameterType="donationVO">
 		insert into DONATION values(#{aid},#{user_id},#{item_name},#{quantity},#{total},#{tax_free},#{time},#{payment_method_type})
 	</insert>
+	<select id="select" resultType="donationVO">
+     	select sum(total) total,user_id, m.name item_name  from donation d, member m where m.id=d.user_id GROUP BY user_id, name order by total desc 
+   	</select>
 	
 </mapper>

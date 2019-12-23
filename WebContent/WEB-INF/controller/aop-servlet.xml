@@ -16,16 +16,29 @@
 		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 		<bean id="advice" class="volunteer.data.aop.LoginAOP"/>
 		
-		
-		
+		<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+		<bean id="checkMemberType" class="volunteer.data.aop.CheckMemberTypeAOP"/>
 		<aop:config>
 			<aop:pointcut expression="execution(public * volunteer.main.action..Member*.join*(..))" id="pc"></aop:pointcut>
+			<aop:pointcut expression="execution(public * volunteer.main.action..Volunteer*.main*(..))" id="checkVol01"></aop:pointcut>
+			<aop:pointcut expression="execution(public * volunteer.main.action..Volunteer*.change_info*(..))" id="checkVol02"></aop:pointcut>
+			<aop:pointcut expression="execution(public * volunteer.main.action..Volunteer*.sponsor*(..))" id="checkVol03"></aop:pointcut>
+			<aop:pointcut expression="execution(public * volunteer.main.action..Disabled*.*(..))" id="checkDisabled01"></aop:pointcut>
+			
 			
 			<aop:aspect id="ar" ref="advice">
 				<aop:around pointcut-ref ="pc" method="around" />
 			</aop:aspect>
 			
+			<aop:aspect id="ar02" ref="checkMemberType">
+				<aop:around method="isVol" pointcut-ref="checkVol01"/>
+				<aop:around method="isVol" pointcut-ref="checkVol02"/>
+				<aop:around method="isVol" pointcut-ref="checkVol03"/>
+				<aop:around method="isDisabled" pointcut-ref="checkDisabled01"/>
+			</aop:aspect>
+			
+			
+			
 		</aop:config>
-		
 
 </beans>

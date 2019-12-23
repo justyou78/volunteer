@@ -22,10 +22,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.extern.java.Log;
 import volunteer.data.dao.ConnectDAOImpl;
+import volunteer.data.dao.DonationDAOImpl;
 import volunteer.data.dao.MemberDAO;
 import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.dao.VolunteerDAOImpl;
 import volunteer.data.method.Kakao_Restapi;
+import volunteer.data.vo.DonationVO;
 import volunteer.data.vo.ListVO;
 import volunteer.data.vo.MemberVO;
 
@@ -46,6 +48,9 @@ public class VolunteerAction {
 	@Autowired
 	ConnectDAOImpl connectDao;
 	
+	@Autowired
+	DonationDAOImpl donationDao;
+	
 	@RequestMapping("connect")
 	public String connect(String disabled_id,Model model) {
 		model.addAttribute("disabled_id",disabled_id);
@@ -54,9 +59,9 @@ public class VolunteerAction {
 
 	@RequestMapping("main")
 	public String main(HttpSession session, Model model, String sysdate) {
-		// 그래프 그리기.
+		
 		if(session.getAttribute("auth") !=null ) {
-			model.addAttribute("auth","장애인 회원만 접근 할 수 있습니다.");
+			model.addAttribute("auth","장애인 페이지에 접근 할 수 없습니다.");
 			session.removeAttribute("auth");
 		}
 		
@@ -90,7 +95,13 @@ public class VolunteerAction {
 				hm.put(vo.getDisabled_id(), memberDao.getName(vo.getDisabled_id()));
 			}
 		}
+		List<DonationVO> donationList = donationDao.select();
+		
+		
+		
+		
 		model.addAttribute("list", list);
+		model.addAttribute("donationList", donationList);
 		model.addAttribute("hm", hm);
 
 		return "volunteer/main";
@@ -213,4 +224,6 @@ public class VolunteerAction {
 		return "redirect:/volunteer/sponsor.vol";
 		
 	}
+	
+	
 }

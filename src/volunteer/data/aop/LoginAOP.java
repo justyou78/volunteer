@@ -24,11 +24,13 @@ public class LoginAOP {
 			HttpServletRequest request = sr.getRequest();
 			HttpSession session = request.getSession();
 			String id = (String) session.getAttribute("id");
+			
 			//로그인 여부 확인하기.
 			if(session !=null) {
 				
 				if(id ==null || id.equals("")) {
 					request.getSession().setAttribute("isLogin", "false");
+					//메인페이지로 이동
 					return "redirect:/main_join/main.vol";
 				}
 			}
@@ -36,6 +38,7 @@ public class LoginAOP {
 			
 			
 			MemberVO vo =  memberDao.selectAll(id);
+			//추가사항 기입란으로 이동.
 			if(vo.getEmail()== null || vo.getEmail().equals("")){
 				return (String) jp.proceed();
 			}
