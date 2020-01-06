@@ -13,6 +13,14 @@ public class BoardVO {
 	private String file02;
 	private String link01;
 	private int views;
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getBbsno() {
 		return bbsno;
 	}

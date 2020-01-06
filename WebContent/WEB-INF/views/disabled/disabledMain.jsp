@@ -1,262 +1,291 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 
 
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<%@ include file="../include/include.jsp"%>
+<%@ include file="../include/include.jsp" %>
+
 <script>
-	var timerId = null;
-	var text = "";
-	var static_id = "";
-	var setting = "<tr><td>닉네임</td><td>성별</td><td>주소</td><td>전화번호</td><td>나이</td><td>연결</td></tr>"
-	function ObjectFunc() {
-		
-	}
-	ObjectFunc.exeConnect = function() {
-		this.sendHelp();
-		console.log(text);
-		if(text=='success') {
-			$('#connect_list').append(setting);
-			console.log(text+'22');
-			timerId = setInterval(this.getConnect, 2000);
-			$("#sendHelp").hide();
-			$("#wait").show();
-			$("#fail").hide();
-			$("#connect_list").show();
-			
-		} else if (text == 'fail') {
-			$("#wait").show();
-			$("#fail").show();
-		}
+   var timerId = null;
+   var text = "";
+   var static_id = "";
+   var setting = "<tr><td>닉네임</td><td>성별</td><td>주소</td><td>전화번호</td><td>나이</td><td>연결</td></tr>"
+   function ObjectFunc() {
+      
+   }
+   ObjectFunc.exeConnect = function() {
+      this.sendHelp();
+      console.log(text);
+      if(text=='success') {
+         $('#connect_list').append(setting);
+         console.log(text+'22');
+         timerId = setInterval(this.getConnect, 2000);
+         $("#sendHelp").hide();
+         $("#wait").show();
+         $("#fail").hide();
+         $("#connect_list").show();
+         
+      } else if (text == 'fail') {
+         $("#wait").show();
+         $("#fail").show();
+      }
 
-	}
+   }
 
-	ObjectFunc.sendHelp = function() {
-		var form = document.sendHelp;
+   ObjectFunc.sendHelp = function() {
+      var form = document.sendHelp;
 
-		$.ajax({
-			url : "sendMessage.vol",
-			dataType : "text",
-			data : $("form").serialize(),
-			async: false,
-			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-			type : "post",
-			success : function(retVal) {
-				text = retVal;
-				console.log(retVal);
-				alert(retVal);
+      $.ajax({
+         url : "sendMessage.vol",
+         dataType : "text",
+         data : $("form").serialize(),
+         async: false,
+         contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+         type : "post",
+         success : function(retVal) {
+            text = retVal;
+            console.log(retVal);
+            alert(retVal);
 
-			},
-			error : function(error) {
-				console.log(error);
-			}
-		});
+         },
+         error : function(error) {
+            console.log(error);
+         }
+      });
 
-	}
+   }
 
-	ObjectFunc.result = function(id) {
-		this.StopClock();
-		static_id=id;
-		console.log(id);
-		$("#sendHelp").hide();
-		$("#wait").hide();
-		$("#fail").hide();
-		$("#finish").show();
-		this.resultMessage(id);
-	}
-	
-	ObjectFunc.resultMessage = function(id){
-		
-		console.log(id);
-		$.ajax({
-			url:"resultMessage.vol",
-			data: {id:id},
-			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-			type:"post",
-			success:function(retVal){
-				alert('요청이 완료되었습니다. 봉사자가 오고있습니다.');
-				
-			},
-			error:function(error){
-				alert(error);
-			}
-		
-	});
-		
-	
-	}
-	
-	ObjectFunc.getConnect = function() {
-		$.ajax({
-					url : "/volunteer/disabled/getConnect.vol",
-					dataType : "json",
-					contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-					type : "post",
-					success : function(retVal) {
-
-						console.log(retVal);
-
-						$.each(
-										retVal.member,
-										function(index, member) {
-											var gender = "";
-
-											if (member.gender == 1) {
-												gender = '남자';
-
-											} else {
-												gender = '여자';
-											}
-											$('#connect_list')
-													.append(
-															"<tr><td name='name'>"
-																	+ member.name
-																	+ "</td><td name='gender'>"
-																	+ gender
-																	+ "</td><td>"
-																	+ member.address
-																	+ "</td>"
-																	+ " <td>"
-																	+ member.callnumber
-																	+ "</td> <td>"
-																	+ member.age
-																	+ "</td> <td><input type='button' onclick='ObjectFunc.result("
-																	+ member.id
-																	+ ")' value='확인'</td></tr>");
-
-										});
-
-					},
-					error : function(error) {
-						console.log(error);
-					}
-				});
-
-	}
-	ObjectFunc.StopClock = function() {
-		$("#sendHelp").show();
-		$("#wait").hide();
-		$("#fail").hide();
-		$("#connect_list").html('');
-		$("#connect_list").hide();
-
-		if (timerId != null) {
-			clearInterval(timerId);
-
-		}
-
-	}
-	ObjectFunc.insert_vol= function(){
-		
-		$("#finish").hide();
-		$("#sendHelp").show();
-		$("#wait").hide();
-		$("#fail").hide();
-		$("#connect_list").html('');
-		$("#connect_list").hide();
-		
-	
-		console.log(static_id);
-		console.log($("#vol_time").val());
-		console.log($("#vol_job").val() );
-		var member = {
-
-	    		"vol_id": static_id,
-
-	    		"vol_time": $("#vol_time").val(),
-	    		"content": $("#vol_job").val()
-
-	    	};
-		console.log(member);
-		$.ajax({
-
-    		url : 'insert_vol.vol',
-
-    		dataType : 'text',
-
-    		type : 'POST',
-
-    		data : JSON.stringify(member), 
-
-    		contentType : 'application/json; charset=UTF-8',
-
-    		success : function(result) {
-
-    			console.log(result);
-
-    		},
-    		error : function(error) {
-				console.log(error);
-			}
-    		
-
-    	});
-		
-	}
-</script>
-
-
-<meta charset="utf-8">
-<title>마커 클러스터러에 클릭이벤트 추가하기</title>
-
-</head>
-<body>
-	<c:if test="${auth !=null }">
-		<script>
-			window.alert('${auth}');
-		</script>
-
-	</c:if>
-
-
-	<p style="margin-top: -12px">
-		사용한 데이터를 보시려면 <em class="link"> <a
-			href="/volunteer/web/data/member.json" target="_blank">여기를
-				클릭하세요!</a>
-		</em>
-	</p>
-	
-	
-	<form name="finish" id="finish" style="display: none">
-		<input type="button" value="봉사완료" onclick="ObjectFunc.insert_vol()" />
-	</form>
-
-
-	
-
-	<form method="get" action="sendMessage.vol" name="sendHelp"
-		id="sendHelp">
-		<input type="text" placeholder="작업내용" name="vol_job" id="vol_job"/> <input
-			type="text" placeholder="봉사시간" name="vol_time"  id="vol_time"/> <input
-			type="button" value="도움 요청하기" onclick="ObjectFunc.exeConnect()" />
-
-		<p id="fail" style="display: none">주변에 사람이 없습니다.</p>
-
-
-	</form>
-
-	<input type="button" value="응답대기중(취소)" style="display: none"
-		onclick="ObjectFunc.StopClock();" id="wait" />
-
-
-	<form method="post" name="result">
-		<table id="connect_list" style="display:none">		</table>
-
-	</form>
-	
-	<!-- 맵 -->
-   <div id="map" style="float: right; width: 80%; height: 700px;"></div>
+   ObjectFunc.result = function(id) {
+      this.StopClock();
+      static_id=id;
+      console.log(id);
+      $("#sendHelp").hide();
+      $("#wait").hide();
+      $("#fail").hide();
+      $("#finish").show();
+      this.resultMessage(id);
+   }
    
+   ObjectFunc.resultMessage = function(id){
+      
+      console.log(id);
+      $.ajax({
+         url:"resultMessage.vol",
+         data: {id:id},
+         contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+         type:"post",
+         success:function(retVal){
+            alert('요청이 완료되었습니다. 봉사자가 오고있습니다.');
+            
+         },
+         error:function(error){
+            alert(error);
+         }
+      
+   });
+      
+   
+   }
+   
+   ObjectFunc.getConnect = function() {
+      $.ajax({
+               url : "/volunteer/disabled/getConnect.vol",
+               dataType : "json",
+               contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+               type : "post",
+               success : function(retVal) {
+
+                  console.log(retVal);
+
+                  $.each(
+                              retVal.member,
+                              function(index, member) {
+                                 var gender = "";
+
+                                 if (member.gender == 1) {
+                                    gender = '남자';
+
+                                 } else {
+                                    gender = '여자';
+                                 }
+                                 $('#connect_list')
+                                       .append(
+                                             "<tr><td name='name'>"
+                                                   + member.name
+                                                   + "</td><td name='gender'>"
+                                                   + gender
+                                                   + "</td><td>"
+                                                   + member.address
+                                                   + "</td>"
+                                                   + " <td>"
+                                                   + member.callnumber
+                                                   + "</td> <td>"
+                                                   + member.age
+                                                   + "</td> <td><input type='button' onclick='ObjectFunc.result("
+                                                   + member.id
+                                                   + ")' value='확인'</td></tr>");
+
+                              });
+
+               },
+               error : function(error) {
+                  console.log(error);
+               }
+            });
+
+   }
+   ObjectFunc.StopClock = function() {
+      $("#sendHelp").show();
+      $("#wait").hide();
+      $("#fail").hide();
+      $("#connect_list").html('');
+      $("#connect_list").hide();
+
+      if (timerId != null) {
+         clearInterval(timerId);
+
+      }
+
+   }
+   ObjectFunc.insert_vol= function(){
+      
+      $("#finish").hide();
+      $("#sendHelp").show();
+      $("#wait").hide();
+      $("#fail").hide();
+      $("#connect_list").html('');
+      $("#connect_list").hide();
+      
+   
+      console.log(static_id);
+      console.log($("#vol_time").val());
+      console.log($("#vol_job").val() );
+      var member = {
+
+             "vol_id": static_id,
+
+             "vol_time": $("#vol_time").val(),
+             "content": $("#vol_job").val()
+
+          };
+      console.log(member);
+      $.ajax({
+
+          url : 'insert_vol.vol',
+
+          dataType : 'text',
+
+          type : 'POST',
+
+          data : JSON.stringify(member), 
+
+          contentType : 'application/json; charset=UTF-8',
+
+          success : function(result) {
+
+             console.log(result);
+
+          },
+          error : function(error) {
+            console.log(error);
+         }
+          
+
+       });
+      
+   }
+</script>
+<meta charset="utf-8">
+<title>장애인페이지</title>
+   <c:if test="${auth !=null }">
+      <script>
+         window.alert('${auth}');
+      </script>
+   </c:if>
+</head>
+<body class="grey lighten-3">
+<%@ include file="../include/vol_include.jsp" %>
+<p style="margin-top:-12px">
+     사용한 데이터를 보시려면
+    <em class="link">
+       <a href="/volunteer/web/data/member.json" target="_blank">여기를 클릭하세요!</a>
+    </em>
+</p>
+
+   
+<div class="row">
+<div class="col s3">
+   <div style="height: 300px;text-align: center;">
+      <form method="post" name="result">
+         <table id="connect_list" style="display:none">      </table>
+      </form>
+      <form method="get" action="sendMessage.vol" name="sendHelp"   id="sendHelp">
+         <input type="text" placeholder="작업내용" name="vol_job" id="vol_job"/> 
+         <input type="text" placeholder="봉사시간" name="vol_time"  id="vol_time"/> 
+         <input class="btn-large light-blue darken-4" type="button" value="도움요청" onclick="ObjectFunc.exeConnect()" style="font-size: 20px;"/>
+         <p id="fail" style="display: none">주변에 사람이 없습니다.</p>
+      </form>   
+   </div>
+   <div style="height: 90px;text-align: center;">
+      <form name="finish" id="finish" style="display: none">
+         <input class="btn-large light-blue darken-4" type="button" value="봉사완료" onclick="ObjectFunc.insert_vol()" />
+      </form>
+      <input class="btn-large light-blue darken-4" type="button" value="도움취소" style="display: none"   onclick="ObjectFunc.StopClock();" id="wait" />
+   </div>
+   <div class="row" style="height: 220px; text-align: center; margin-left: 1px;">
+      <span class="col s12 light-blue darken-4 white-text text-darken-2" style="font-size: 30px">FILTER</span>
+      <!--  필터 기능   -->
+      <div class="col s6">
+      <label>
+         <p><input class="with-gap" type="radio" name="gender" value="남자" checked/>
+         <span class="black-text text-darken-2">남자</span></p>
+      </label>
+      <label>
+         <p><input class="with-gap" type="radio" name="gender" value="여자" />
+         <span class="black-text text-darken-2">여자</span></p>
+      </div>
+      <div class="col s6">
+      </label>
+      <label>
+         <p><input class="with-gap" type="radio" name="age" value="10 19" checked/>
+         <span class="black-text text-darken-2">10대</span></p>
+      </label>
+      <label>
+         <p><input class="with-gap" type="radio" name="age" value="20 29" />
+         <span class="black-text text-darken-2">20대</span></p>
+      </label>
+      <label>
+         <p><input class="with-gap" type="radio" name="age" value="30 39" />
+         <span class="black-text text-darken-2">30대</span></p>
+      </label>
+      <label>
+         <p><input class="with-gap" type="radio" name="age" value="40 49" />
+         <span class="black-text text-darken-2">40대</span></p>
+      </label>
+      </div>
+   </div>
+   <div style="height: 70px; text-align: center;">
+      <a class="light-blue darken-4 btn-large" href="#" id="submit">submit</a>
+      <a class="light-blue darken-4 btn-large" href="#" id="clear">clear</a>
+   </div>
+</div>
+<div class="col s9">
+   <!-- 맵 -->
+   <div id="map" style="width: 100%; height: 700px;"></div>
+</div>
+</div>
+  <%@ include file="../include/footer.jsp" %>
+</body>
    
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=494e02c4821bde94e76161ca7fd542b2&libraries=clusterer"></script>
 <script type="text/javascript">
-   // 상세정보 띄우는 메서드
-   function newopen(id) {
-      window.open('http://localhost:8081/volunteer/disabled/memberInfo.vol?id='+id+'', 'info', 'width=600, height=600');
-   }
+	function newopen(id) {
+		console.log(id);
+		
+	   window.open('http://192.168.0.48:8081/volunteer/commons/memberInfo.vol?id='+id, 'info', 'width=700, height=350');
+	}
    // 제이슨에서 불러온 데이터로 마커 생성후 인포윈도우 생성
    function makeMarker(){
       $.get("/volunteer/web/data/member.json", function(data) {          
@@ -269,15 +298,12 @@
               kakao.maps.event.addListener(marker, 'click', function() {
                  if(result){              
                   $.ajax({
-                     url : "http://localhost:8081/volunteer/disabled/brief.vol?id="+position.id,
+                     url : "http://192.168.0.48:8081/volunteer/disabled/brief.vol?id="+position.id,
                      success : function(data){
-                        
-                          var iwContent = data+'<div style="padding:5px;"><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                           var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+                          var iwContent = data; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                           if(infowindow == null){
                               infowindow = new kakao.maps.InfoWindow({
-                                 content : iwContent,
-                                 removable : iwRemoveable
+                                 content : iwContent
                              });
                           }
                            infowindow.open(map, marker);
@@ -340,17 +366,6 @@
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
 </script>
-
-<!--  필터 기능   -->
-<input type="radio" name="gender" value="남자" />남자
-<input type="radio" name="gender" value="여자" />여자 <br />
-<input type="radio" name="age" value="10 19" />10대
-<input type="radio" name="age" value="20 29" />20대 
-<input type="radio" name="age" value="30 39" />30대 
-<input type="radio" name="age" value="40 49" />40대 <br />
-
-<button id="submit">submit</button>
-<button id="clear">clear</button>
 <script type="text/javascript">
 // 필터 적용
 $("#submit").click(function(){
@@ -372,9 +387,9 @@ $("#submit").click(function(){
                  kakao.maps.event.addListener(marker, 'click', function() {
                     if(result){              
                      $.ajax({
-                        url : "http://localhost:8081/volunteer/disabled/brief.vol?id="+position.id,
+                        url : "http://192.168.0.48:8081/volunteer/disabled/brief.vol?id="+position.id,
                         success : function(data){
-                             var iwContent = data+'<div style="padding:5px;"><input type="button" onclick="newopen('+position.id+')" value="상세정보"/></div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                             var iwContent = data; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                               var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
                              if(infowindow == null){
                                  infowindow = new kakao.maps.InfoWindow({
@@ -408,8 +423,6 @@ $("#clear").click(function(){
     clusterer.clear();
    makeMarker();
 });
-
   
-
-</body>
+</script>
 </html>

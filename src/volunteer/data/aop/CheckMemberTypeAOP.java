@@ -41,7 +41,7 @@ public class CheckMemberTypeAOP {
 		
 		
 	}
-	public String isDisabled(ProceedingJoinPoint jp) throws Throwable {
+	public Object isDisabled(ProceedingJoinPoint jp) throws Throwable {
 		System.out.println("Disabled AOP 진입");
 		ServletRequestAttributes sr=
 				(ServletRequestAttributes)(RequestContextHolder.currentRequestAttributes());
@@ -52,7 +52,7 @@ public class CheckMemberTypeAOP {
 			String id = (String)session.getAttribute("id");
 			String memberType = memberDao.selectAll(id).getMember_type();
 			if(memberType.equals("2")) {
-				return (String) jp.proceed();
+				return jp.proceed();
 			}
 			else {
 				request.getSession().setAttribute("isLogin", "notType");

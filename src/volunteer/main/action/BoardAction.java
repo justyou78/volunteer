@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import volunteer.data.dao.BoardDAOImpl;
+import volunteer.data.dao.MemberDAOImpl;
 import volunteer.data.vo.BoardVO;
+import volunteer.data.vo.MemberVO;
 
 @Controller
 @RequestMapping("/board/")
@@ -18,11 +20,13 @@ public class BoardAction {
 	
 	@Autowired
 	BoardDAOImpl dao;
+	@Autowired
+	MemberDAOImpl memdao;
 	
 	// 리스트
 	@RequestMapping("boardList")
 	public String boardList(Model model) {
-		List<BoardVO> vo = dao.select();
+		List<BoardVO> vo = dao.selectAddName();
 		model.addAttribute("vo", vo);
 		return "board/boardList";
 	}
@@ -79,4 +83,7 @@ public class BoardAction {
 		dao.delete(num);
 		return "board/boardDeletePro";
 	}
+	
+	
+
 }

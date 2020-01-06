@@ -128,11 +128,6 @@ public class DisabledAction {
 			data.put("gender", vo.getGender());
 			data.put("id",vo.getId());
 			jarray.add(data);
-			
-			
-			
-			
-			
 		}
 		JSONObject resultObject = new JSONObject();
 		resultObject.put("member", jarray);
@@ -222,22 +217,7 @@ public class DisabledAction {
 	}
 	
 	
-	//지도에 각 유저의 상세정보를 보여주는 Controller
-	@RequestMapping("memberInfo")
-	public String memberInfo(Model model, String id) {
-		if(id != null) {
-			MemberVO vo = memdao.selectAll(id);
-			if(vo.getPicture() == null) {
-				if(vo.getGender() == 1) {
-					vo.setPicture("../img/bono.png");
-				}else {
-					vo.setPicture("../img/poro.png");
-				}
-			}
-			model.addAttribute("vo", vo);
-		}
-		return "disabled/memberInfo";
-	}
+	
 	
 	
 	//지도에 유저의 간략한 정보를 보여주는 Controller

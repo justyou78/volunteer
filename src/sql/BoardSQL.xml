@@ -29,5 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete" parameterType="int">
 		delete from board where bbsno=#{num}
 	</delete>
+	<select id="selectAddName" resultType="boardVO">
+      select * from board, member where board.id=member.id order by bbsno desc
+   </select>
 	
 </mapper>

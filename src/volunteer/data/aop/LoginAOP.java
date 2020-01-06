@@ -25,9 +25,8 @@ public class LoginAOP {
 			HttpSession session = request.getSession();
 			String id = (String) session.getAttribute("id");
 			
-			//로그인 여부 확인하기.
+			//로그인이 되어있지 않은 상태로 페이지 이동을 요청할 경우 다시 메인페이지로 이동시킨다.
 			if(session !=null) {
-				
 				if(id ==null || id.equals("")) {
 					request.getSession().setAttribute("isLogin", "false");
 					//메인페이지로 이동
@@ -38,10 +37,11 @@ public class LoginAOP {
 			
 			
 			MemberVO vo =  memberDao.selectAll(id);
-			//추가사항 기입란으로 이동.
+			//로그인은 되어있지만 추가사항을 기입하지 않았을 경우 추가사항 기입란으로 이동시킨다.
 			if(vo.getEmail()== null || vo.getEmail().equals("")){
 				return (String) jp.proceed();
 			}
+			//장애인이 봉사자페이지를, 봉사자가 장애인 페이지를 클릭했을 때 접근을 제한하고 권한에 맞는 페이지로 이동시킨다.
 			else {
 				String st = request.getParameter("page");
 				if(vo.getMember_type().equals("1")) {

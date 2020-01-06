@@ -8,23 +8,80 @@
 <%@ include file="../include/include.jsp" %>
 </head>
 <body>
-	<form action="join_pro.vol" method="post" name="join">
-	<div>신뢰할 수 있는 사람인지 알기 위해서 추가적인 정보가 필요합니다. </div>
-	<select name=member_type onchange="select_type()" id="member_type">
-		<option value="1"  selected>봉사자</option>
-		<option value="2">장애인</option>
-		
-	</select><br/>
-	이메일<input type="email"  name="email" placeholder="이메일 형식으로 아이디 입력해주세요."> <br/>
-	비밀번호<input type="password" name="pw"/>
-	전화번호<input type="text"  name="callnumber" placeholder="전화번호 입력."> <br/>
 	
-	 나이 <input type="number" name="age" /> <br/>
-	성별 <select name="gender"  name="gender"><option value="1" >남</option><option value="2"> 여</option></select><br/>
-	<input type="hidden" id="sample4_postcode" placeholder="우편번호">
-<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address">
-<span id="guide" style="color:#999;display:none"></span>
+	
+	<div class="container" style="margin-top: 50px; width: 50%;">
+	<form action="join_pro.vol" method="post" name="join" >
+	
+	<h3>가입정보 입력</h3>
+	<blockquote class="">신뢰할 수 있는 사람인지 알기 위해서 추가적인 정보가 필요합니다. </blockquote>
+	
+	<div class="input-field">
+	
+    <select class="icons"  onchange="select_type()"  id="member_type" name="member_type">
+      <option value="1" data-icon="/volunteer/img/jange2.png" class="left"  checked>봉사자</option>
+      <option value="2" data-icon="/volunteer/img/jange1.png"   class="left" >장애인</option>
+    </select>
+    <label>유형</label>
+  	</div>
+  	
+  	
+	<br/>
+	 <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="email" class="validate" name="email">
+          <label for="email">이메일</label>
+        </div>
+      </div>
+	<div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" class="validate" name="pw">
+          <label for="password">비밀번호</label>
+        </div>
+      </div>
+      
+      
+       
+       <div class="row">
+	       <div class="input-field col s4">
+		    <select class="icons"  onchange="select_type()"   name="gender"  >
+		      <option value="1"  class="left"  checked>남</option>
+		      <option value="2" class="left" >여</option>
+		    </select>
+		    <label>성별</label>
+		  	</div>
+	     
+	        <div class="input-field col s4">
+	          <input id="age" type="number" class="validate" name="age">
+	          <label for="age">나이</label>
+	        </div>
+	          <div class="input-field col s4">
+	          <i class="material-icons prefix">phone</i>
+	          <input id="icon_telephone" type="tel" class="validate" name="callnumber" >
+	          <label for="icon_telephone">전화번호</label>
+	       </div>
+        
+      </div>
+       
+	 
+  	
+  	 <div class="row">
+  	  	<div class="input-field col s6">
+       
+	          <input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address">
+	          <label for="address">address</label>
+	    </div>
+        <div class="input-field col s6">
+        <a class="waves-effect waves-light btn light-blue darken-4" onclick="sample4_execDaumPostcode()"><i class="material-icons right" >map</i>우편번호 찾기</a>
+          
+		<span id="guide" style="color:#999;display:none"></span>
+        </div>
+        
+      </div>
+       
+       
+       <input type="hidden" id="sample4_postcode" placeholder="우편번호">
+
 <input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
 <input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
 <input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
@@ -87,17 +144,31 @@
         }).open();
     }
 </script>
-	<div id="type"></div>
+		<div id="type"></div>
 	
-	
-	
-	<input type="submit" value="회원가입"/>
+		<div class="row">
+			<button class="btn waves-effect waves-light col s2 offset-s10 light-blue darken-4" type="submit" name="action">회원가입
+		    	<i class="material-icons right">send</i>
+		  	</button>
+	  	</div>
 	<!--  member type 과 dsabled_detail,regist_number_vol / regist_number/disabled 값을 설정해주자 -->
 	</form>
+	</div>
 	
 	
 </body>
 <script>
+
+		document.addEventListener('DOMContentLoaded', function() {
+		    var elems = document.querySelectorAll('select');
+		    var instances = M.FormSelect.init(elems);
+		  });
+		
+		  // Or with jQuery
+		
+		  $(document).ready(function(){
+		    $('select').formSelect();
+		  });
 		window.onload = function() { //실행될 코드 }
 			select_type();
 		}

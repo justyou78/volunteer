@@ -73,4 +73,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select id from member
 	</select>
 	
+	<select id="selectAllDescTime" resultType="memberVO" >
+		select total_vol_time, name,picture from (select name,total_vol_time,picture from member where not total_vol_time is null  order by total_vol_time desc) where rownum between 1 and 5
+	</select>
+	
 </mapper>

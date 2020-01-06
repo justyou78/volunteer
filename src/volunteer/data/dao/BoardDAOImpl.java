@@ -26,6 +26,10 @@ public class BoardDAOImpl implements BoardDAO{
 		BoardVO vo = sqlSession.selectOne("board.selectNum", num);
 		return vo;
 	}
+	public List<BoardVO> selectAddName() {
+	      List<BoardVO> vo = sqlSession.selectList("board.selectAddName");
+	      return vo;
+	   }
 	
 	// 글쓰기
 	@Override

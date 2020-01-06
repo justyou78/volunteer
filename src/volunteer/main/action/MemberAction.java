@@ -73,6 +73,7 @@ public class MemberAction {
 		System.out.println(vo.getMember_type()+"멤버타입");
 		String id =(String)session.getAttribute("id");
 		vo.setId(id);
+		System.out.println(id);
 		memberDao.updateInfo(vo);
 		
 		// member.json에 좌표 추가
@@ -104,11 +105,6 @@ public class MemberAction {
 
 	@RequestMapping(value = "oauth", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
 	public String kakaoLogin(@RequestParam("code") String code, Model model, HttpSession session) {
-
-		
-		
-		
-		
 		// 카카오 rest api 객체 선언
 		Kakao_Restapi kakao_restapi = new Kakao_Restapi();
 		// 결과값을 node에 담아줌
@@ -128,6 +124,7 @@ public class MemberAction {
 		JsonNode properties = node02.path("properties");
 		String id = node02.path("id").asText();
 		session.setAttribute("id", id);
+		
 
 		String name = properties.path("nickname").asText();
 		String imgUrl = properties.path("profile_image").asText();
@@ -157,26 +154,47 @@ public class MemberAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-
 		// 기본 데이터 삽입
 		MemberVO vo = new MemberVO();
 		vo.setId(id);
 		vo.setName(name);
 		vo.setPicture(imgUrl);
-		//아이디가 존재할 경우
+		//아이디가 존재하지 않을 경우
 		if (memberDao.selectID(id) == null) {
 			memberDao.insert(vo);
 			System.out.println("insert");
-		//아이디가 존재하지 않을 경우.
+			return "redirect:/main_join/join.vol";
+			
+			
+		//아이디가 존재할경우.
 		} else {
 			memberDao.update(vo);
+			
 			System.out.println("update");
+			
+		}
+		vo = memberDao.selectAll(id);
+		
+		if(vo.getEmail() ==null || vo.getEmail().equals("")) {
+			return "redirect:/main_join/join.vol";
+		}
+		else {
+			if(vo.getMember_type().equals("1")) {
+				return "redirect:/volunteer/main.vol";
+				
+			}
+			else {
+				return "redirect:/disabled/disabledMain.vol";
+			}
 		}
 		
 		
-		return "redirect:/main_join/main.vol";
+		
+		
+	}
+	@RequestMapping("login")
+	public String login() {
+		return "main_join/login";
 	}
 	
 //	@RequestMapping(value = "oauth02", produces = "application/json", method = { RequestMethod.GET, RequestMethod.POST })
@@ -259,6 +277,7 @@ public class MemberAction {
 	//카카오 로그인 logout
 	@RequestMapping(value = "logout", produces = "application/json")
 	public String logout(HttpSession session) {
+		
 		// kakao restapi 객체 선언
 		Kakao_Restapi kr = new Kakao_Restapi();
 		// 노드에 로그아웃한 결과값음 담아줌 매개변수는 세션에 잇는 token을 가져와 문자열로 변환

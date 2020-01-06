@@ -1,5 +1,6 @@
 package volunteer.data.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +59,11 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	public MemberVO selectAllFromEmail(String email) {
 		return sqlSession.selectOne("member.selectAllFromEmail",email);
+	}
+	public List<MemberVO> selectAllDescTime() {
+		List<MemberVO> list = new ArrayList<MemberVO>();
+		list = sqlSession.selectList("member.selectAllDescTime");
+		return list;
 	}
 	
 }

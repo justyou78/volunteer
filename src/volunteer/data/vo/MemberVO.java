@@ -19,12 +19,18 @@ public class MemberVO {
 	private String picture;
 	private int regist_number;
 	private int total_vol_time;
-	private int point;
+	private double point;
 	private String callnumber;
 	private String pw;
 	
 	
 	
+	public double getPoint() {
+		return point;
+	}
+	public void setPoint(double point) {
+		this.point = point;
+	}
 	public String getPw() {
 		return pw;
 	}
@@ -114,12 +120,8 @@ public class MemberVO {
    public void setTotal_vol_time(int total_vol_time) {
       this.total_vol_time = total_vol_time;
    }
-   public int getPoint() {
-      return point;
-   }
-   public void setPoint(int point) {
-      this.point = point;
-   }
+   
+  
    public String getId() {
       return id;
    }

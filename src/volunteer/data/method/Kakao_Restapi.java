@@ -219,9 +219,9 @@ public class Kakao_Restapi {
 		 postParams.add(new BasicNameValuePair("quantity", "1"));
 		 postParams.add(new BasicNameValuePair("total_amount", money));
 		 postParams.add(new BasicNameValuePair("tax_free_amount", "0"));
-		 postParams.add(new BasicNameValuePair("approval_url", "http://192.168.0.48:8081/volunteer/volunteer/kakaoPaySuccess.vol"));
-		 postParams.add(new BasicNameValuePair("cancel_url", "http://192.168.0.48:8081/volunteer/volunteer/kakaoPayCancel.vol"));
-		 postParams.add(new BasicNameValuePair("fail_url", "http://192.168.0.48:8081/volunteer/volunteer/kakaoPayFail.vol"));
+		 postParams.add(new BasicNameValuePair("approval_url", "http://192.168.0.48:8081/volunteer/commons/kakaoPaySuccess.vol"));
+		 postParams.add(new BasicNameValuePair("cancel_url", "http://192.168.0.48:8081/volunteer/commons/kakaoPayCancel.vol"));
+		 postParams.add(new BasicNameValuePair("fail_url", "http://192.168.0.48:8081/volunteer/commons/kakaoPayFail.vol"));
 		 
 		 
 		 JsonNode returnNode = null;

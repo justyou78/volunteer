@@ -150,4 +150,64 @@ public class kakao_http_client {
 	       }
 	
 	}
+	
+	public void readToJsonModify(List<HashMap<String, String>> position, String id) throws FileNotFoundException, IOException, ParseException{
+	      
+	      JSONParser parser = new JSONParser();
+	      JSONObject object = (JSONObject) parser.parse(new FileReader("C:\\Spring_An\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp7\\wtpwebapps\\volunteer\\web\\data\\member.json")); // json 파싱
+	       
+	      JSONArray list = (JSONArray) object.get("positions"); // 리스트에 담기
+	      System.out.println(list);
+	      JSONObject obj = new JSONObject(); // 최종적으로 들어갈 객체
+	      JSONObject obj2 = null;
+	      JSONObject obj3 = null;
+	      
+	      for(int i = 0; i < list.size(); i++) {
+	         obj2 = (JSONObject) list.get(i);
+	         String listid = null;
+	         if(obj2.get("id") != null) {
+	        	 listid= (String) obj2.get("id");	 
+	         }
+	         else {
+	        	 continue;
+	         }
+	         System.out.println(listid+"아이디확인");
+	         if(listid != null && listid.equals(id)) {
+	            list.remove(i);
+	            for(HashMap<String, String> hs : position) {
+	            	obj3 = new JSONObject();
+	               String x = hs.get("x").replaceAll("\"", ""); 
+	               String y = hs.get("y").replaceAll("\"", ""); 
+	               obj3.put("lng", Double.parseDouble(x));
+	               obj3.put("lat", Double.parseDouble(y));
+	               obj3.put("name", hs.get("name"));
+	               obj3.put("address", hs.get("address"));
+	               obj3.put("age", hs.get("age"));
+	               obj3.put("gender", hs.get("gender"));
+	               obj3.put("id", hs.get("id"));
+	               list.add(obj3);   
+	            }
+	            break;
+	         }
+	      }
+	      
+	      obj.put("positions", list);   // 리스트 넣기
+	      
+	      // 파일 생성(덮어쓰기)
+	      FileWriter file;
+	          try {
+	             file = new FileWriter("C:\\Spring_An\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp7\\wtpwebapps\\volunteer\\web\\data\\member.json");
+	                file.write(obj.toJSONString());
+	                file.flush();
+	                file.close();
+	          } catch (IOException e) {
+	                e.printStackTrace();
+	          }
+
+	   }
+	
+	
+	
+	
+	
 }

@@ -30,9 +30,10 @@ public class VolunteerDAOImpl implements VolunteerDAO {
 	public String getGraph(String id, String sysdate) {
 		String imgName = null;
 		System.out.println(sysdate + "가져온날짜.");
+		RConnection r = null;
 		try {
 
-			RConnection r = new RConnection();
+			r = new RConnection();
 			String sql = "SELECT * FROM VOL_LIST WHERE VOL_ID=" + id + " and  TO_CHAR(time, 'yyyy')=" + "'" + sysdate
 					+ "'";
 			System.out.println(sql);
@@ -57,6 +58,11 @@ public class VolunteerDAOImpl implements VolunteerDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			if(r != null) {
+			r.close();
+			}
 		}
 		return imgName;
 	}

@@ -6,28 +6,139 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%@ include file="../include/include.jsp"%>
+<%@ include file="../include/vol_include.jsp"%>
+
+<style>
+	.subtitle{
+		
+	
+	}
+</style>
 </head>
 <body>
-	<form action="/volunteer/volunteer/change_info_Pro.vol" method="post">
-
-		<h1>회원정보 수정</h1>
-		<input type="email" value="${memberVO.email }" name="email" />
-		<input type="text" value="${memberVO.callnumber}" name="callnumber" /> <input
-			type="text" value="${memberVO.age }" name="age" />
-		<c:if test="${memberVO.gender ==1}">
-			<input type="text" value="남" name="isgender" />
-		</c:if>
-		<c:if test="${memberVO.gender==2}">
-			<input type="text" value="여" name="isgender" />
-		</c:if>
+	<div class="container">
+	<form action="/volunteer/commons/change_info_Pro.vol" method="post" >
+		<h3 style="border-bottom: 3px solid black;">＃ 회원정보 수정</h3>
+		<p>* 회원님의 정보를 소중히 지켜드리겠습니다 *</p>
+		
+		<h5 style="margin-top: 30px;" >※ 정보입력</h5>
+		<table>
+		<tr>
+			<td class=" blue-text text-darken-2">
+				이메일
+			</td>
+			<td>
+				<input type="email" value="${memberVO.email }" name="email" />
+			</td>
+		</tr>
+		<tr>
+			<td class="blue-text text-darken-2">
+				전화번호
+			</td>
+			<td>
+				<input type="text" value="${memberVO.callnumber}" name="callnumber" />
+			</td>
+		</tr>
+		<tr>
+			<td class="blue-text text-darken-2">
+				나이
+			</td>
+			<td>
+			 	<input type="text" value="${memberVO.age }" name="age" />
+			 </td>
+		</tr>
+		<tr>
+			<td class="blue-text text-darken-2">
+				성별
+			</td>
+			<td>
+			 	<c:if test="${memberVO.gender ==1}">
+					<input type="text" value="남" name="isgender" />
+				</c:if>
+				<c:if test="${memberVO.gender==2}">
+					<input type="text" value="여" name="isgender" />
+				</c:if>
+			 </td>
+		</tr>
 		<input type="hidden" name="member_type"  value="${memberVO.member_type}"/>
-		<input type="hidden" id="sample4_postcode" placeholder="우편번호">
-<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address" value="${memberVO.address}">
-<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
-<span id="guide" style="color:#999;display:none"></span>
-<input type="text" id="sample4_detailAddress" placeholder="상세주소">
-<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
+		<tr>
+			<td class="blue-text text-darken-2">
+				주소
+			
+			</td>
+			<td>
+				<div class="row valign-wrapper">
+					<div class="input-field col s4">
+						<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address" value="${memberVO.address}" >	
+					</div>
+					<div class="input-field col s4">
+						<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" >
+						<span id="guide" style="color:#999;display:none"></span>
+					</div>
+					<div class="input-field col s4">
+						<input type="text" id="sample4_detailAddress" placeholder="상세주소" >
+					</div>
+				</div>
+				
+				<input type="hidden" id="sample4_postcode" placeholder="우편번호">
+				<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소">
+				
+				<input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
+				
+			</td>
+		</tr>
+		<c:if test="${memberVO.member_type==1 }">
+			<tr>
+				<td class="blue-text text-darken-2">
+					자격증
+				</td>
+				<td>
+					<input type="text" value="${memberVO.vol_name}" name="vol_name" />
+				</td>
+			</tr>
+			<tr>
+				<td class="blue-text text-darken-2">
+					자격번호
+				</td>
+				<td>
+					<input type="text" value="${memberVO.regist_number}" name="regist_number" />
+				</td>
+			</tr>
+		</c:if>
+		<c:if test="${memberVO.member_type==2 }">
+			<tr>		
+				<td class="blue-text text-darken-2">
+					장애명
+				</td>
+				<td>
+					<input type="text" value="${memberVO.disabled_name}"
+						name="disabled_name" />
+				</td>
+			</tr>
+			<tr>
+				<td class="blue-text text-darken-2">
+					장애번호
+				</td>
+				<td>
+					<input type="text" value="${memberVO.disabled_number}"
+					name="disabled_number" />
+				</td>
+			</tr>	
+		</c:if>
+	</table>
+	<!-- 	 <div class="col s6 offset-s6"><span class="flow-text">6-columns (offset-by-6)</span></div>
+ -->		
+ 	<div class="row">
+	 		<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action" style="margin: 20px 0 20px 0; float:right; ">수정하기
+	    		<i  class="material-icons right">send</i>
+	  		</button>
+	 </div>
+	 <input type="hidden" value="${memberVO.pw }" name="pw"/>
+	</form>
+	</div>
+	<%@ include file="../include/footer.jsp"%>
+	
+</body>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -88,24 +199,4 @@
     }
 </script>
 
-		<c:if test="${memberVO.member_type==1 }">
-			<input type="text" value="${memberVO.vol_name}" name="vol_name" />
-			<input type="text" value="${memberVO.regist_number}"
-				name="regist_number" />
-
-		</c:if>
-		<c:if test="${memberVO.member_type==2 }">
-			<input type="text" value="${memberVO.disabled_name}"
-				name="disabled_name" />
-			<input type="text" value="${memberVO.disabled_number}"
-				name="disabled_number" />
-
-		</c:if>
-		
-		<input type="submit" value="수정하기" />
-	</form>
-
-
-
-</body>
 </html>

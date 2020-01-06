@@ -25,6 +25,7 @@ import volunteer.data.dao.ConnectDAOImpl;
 import volunteer.data.dao.DonationDAOImpl;
 import volunteer.data.dao.MemberDAO;
 import volunteer.data.dao.MemberDAOImpl;
+import volunteer.data.dao.VolListDaoImpl;
 import volunteer.data.dao.VolunteerDAOImpl;
 import volunteer.data.method.Kakao_Restapi;
 import volunteer.data.vo.DonationVO;
@@ -47,6 +48,8 @@ public class VolunteerAction {
 	Kakao_Restapi kakao_restapi;
 	@Autowired
 	ConnectDAOImpl connectDao;
+	@Autowired
+	VolListDaoImpl volListDao;
 	
 	@Autowired
 	DonationDAOImpl donationDao;
@@ -64,6 +67,7 @@ public class VolunteerAction {
 			model.addAttribute("auth","장애인 페이지에 접근 할 수 없습니다.");
 			session.removeAttribute("auth");
 		}
+		System.out.println(sysdate);
 		
 		
 		String id = (String) session.getAttribute("id");
@@ -95,26 +99,26 @@ public class VolunteerAction {
 				hm.put(vo.getDisabled_id(), memberDao.getName(vo.getDisabled_id()));
 			}
 		}
+		
+		
+		//후원을 많이한 순서대로 5명의 데이터 가져오기.
 		List<DonationVO> donationList = donationDao.select();
 		
+		//봉사를 많이한 순서대로 5명의 데이터 가져오기.
+		List<MemberVO> volList = memberDao.selectAllDescTime();
 		
-		
-		
+		//각 데이터 view로 이동하기 위해 model에 추가한다.
 		model.addAttribute("list", list);
 		model.addAttribute("donationList", donationList);
 		model.addAttribute("hm", hm);
+		model.addAttribute("volList", volList);
+		
 
 		return "volunteer/main";
 
 	}
 
-	@RequestMapping("change_info")
-	public String change_info(Model model, HttpSession session) {
-		String id = (String) session.getAttribute("id");
-		MemberVO vo = memberDao.selectAll(id);
-		model.addAttribute("memberVO", vo);
-		return "volunteer/change_info";
-	}
+	
 	
 	@RequestMapping("connect_pro")
 	public String connect_pro(MemberVO vo, Model model,String disabled_id)
@@ -145,34 +149,7 @@ public class VolunteerAction {
 		return "volunteer/connect";
 	}
 
-	@RequestMapping("change_info_Pro")
-	public String change_info_Pro(HttpServletRequest request, Model model, MemberVO vo, HttpSession session,
-			String isgender) throws UnsupportedEncodingException {
-		
-		request.setCharacterEncoding("UTF-8");
-		System.out.println("진입");
-		String id = (String) session.getAttribute("id");
-		vo.setId(id);
-		System.out.println(isgender);
-		if (isgender.equals("남")) {
-			vo.setGender(1);
-		} else {
-			vo.setGender(2);
-		}
-		System.out.println(vo.getAge());
-		System.out.println(vo.getAddress());
-		System.out.println(vo.getId());
-		System.out.println(vo.getVol_name());
-		System.out.println(vo.getRegist_number());
-		System.out.println(vo.getMember_type());
-
-		memberDao.updateInfo(vo);
-
-		model.addAttribute("changeInfo", true);
-
-		return "redirect:/volunteer/main.vol";
-
-	}
+	
 
 	@RequestMapping("sponsor")
 	public String sponsor() {
@@ -180,50 +157,9 @@ public class VolunteerAction {
 		return "volunteer/sponsor";
 	}
 
-	@RequestMapping("kakaoPay")
-	public String kakaoPay(HttpSession httpSession,String money) {
-		
-		System.out.println(money +"돈");
-		Kakao_Restapi kakao_restapi = new Kakao_Restapi();
-		JsonNode node = kakao_restapi.kakaoPayReady(httpSession, money);
-		System.out.println(node);
+	
 
-		// JsonNode properties = node02.path("properties");
-		String url = (String) node.path("next_redirect_pc_url").asText();
-		String tid = (String) node.path("tid").asText();
-		
-		httpSession.setAttribute("tid", tid);
-
-		return "redirect:" + url;
-
-	}
-
-	@RequestMapping("kakaoPaySuccess")
-	public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpSession session) throws ParseException {
-		System.out.println(pg_token+"이게 토큰");
-		JsonNode infoNode=kakao_restapi.kakaoPayInfo(pg_token, session, (String)session.getAttribute("tid"));
-		System.out.println(infoNode);
-		VolunteerDao.insert_donation(infoNode,session);
-		
-		
-		
-		return "redirect:/volunteer/sponsor.vol";
-
-	}
-	@RequestMapping("kakaoPayCancel")
-	public String kakaoPayCancel(@RequestParam("pg_token") String pg_token, Model model) {
-		System.out.println(pg_token);
-
-		return "redirect:/volunteer/sponsor.vol";
-
-	}
-	@RequestMapping("kakaoPayFail")
-	public String kakaoPayFail(@RequestParam("pg_token") String pg_token, Model model) {
-		System.out.println(pg_token);
-		
-		return "redirect:/volunteer/sponsor.vol";
-		
-	}
+	
 	
 	
 }
