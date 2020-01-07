@@ -120,7 +120,7 @@
 					장애번호
 				</td>
 				<td>
-					<input type="text" value="${memberVO.disabled_number}"
+					<input type="number" value="${memberVO.disabled_number}"
 					name="disabled_number" />
 				</td>
 			</tr>	

@@ -64,7 +64,7 @@ public class kakao_http_client {
 		hs.put("x", x);	// x 좌표
 		hs.put("y", y); // y 좌표
 		hs.put("name", vo.getName()); // 이름
-		hs.put("address", vo.getAddress()); // 주소
+		hs.put("type",vo.getMember_type()); //멤버 타입
 		hs.put("age", vo.getAge()+""); // 나이
 		hs.put("id", vo.getId()); // 아이디	
 		if(vo.getGender() == 1) { // 성별
@@ -90,7 +90,7 @@ public class kakao_http_client {
 			obj2.put("lng", Double.parseDouble(x));
 			obj2.put("lat", Double.parseDouble(y));
 			obj2.put("name", hs.get("name"));
-			obj2.put("address", hs.get("address"));
+			obj2.put("type", hs.get("type"));
 			obj2.put("age", hs.get("age"));
 			obj2.put("gender", hs.get("gender"));
 			obj2.put("id", hs.get("id"));
@@ -129,7 +129,7 @@ public class kakao_http_client {
 			obj2.put("lng", Double.parseDouble(x));
 			obj2.put("lat", Double.parseDouble(y));
 			obj2.put("name", hs.get("name"));
-			obj2.put("address", hs.get("address"));
+			obj2.put("type", hs.get("type"));
 			obj2.put("age", hs.get("age"));
 			obj2.put("gender", hs.get("gender"));
 			obj2.put("id", hs.get("id"));
@@ -181,7 +181,7 @@ public class kakao_http_client {
 	               obj3.put("lng", Double.parseDouble(x));
 	               obj3.put("lat", Double.parseDouble(y));
 	               obj3.put("name", hs.get("name"));
-	               obj3.put("address", hs.get("address"));
+	               obj3.put("type", hs.get("type"));
 	               obj3.put("age", hs.get("age"));
 	               obj3.put("gender", hs.get("gender"));
 	               obj3.put("id", hs.get("id"));

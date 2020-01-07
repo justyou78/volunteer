@@ -74,7 +74,6 @@ public class CommonsAction {
 	public String change_info_Pro(HttpServletRequest request, Model model, MemberVO vo, HttpSession session,
 			String isgender) throws ClientProtocolException, IOException, org.json.simple.parser.ParseException {
 		
-		request.setCharacterEncoding("UTF-8");
 		System.out.println("진입");
 		String id = (String) session.getAttribute("id");
 		vo.setId(id);

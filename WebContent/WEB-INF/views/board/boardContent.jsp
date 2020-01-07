@@ -18,7 +18,7 @@
 			<td style="width: 100px;">date</td><td><fmt:formatDate value="${vo.regdate }" pattern="yyyy.MM.dd"/></td>
 		</tr>
 		<tr>
-			<td>name</td><td>${vo.id }</td>
+			<td>name</td><td>${vo.name }</td>
 		</tr>
 		<c:if test="${vo.file01 != null}">
 		<tr>

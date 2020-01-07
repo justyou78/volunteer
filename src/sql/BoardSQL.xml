@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from board order by bbsno desc
 	</select>
 	<select id="selectNum" parameterType="int" resultType="boardVO">
-		select * from board where bbsno=#{num}
+		 select * from board, member where bbsno=#{num} and board.id=member.id
 	</select>
 	
 	<insert id="insert" parameterType="boardVO">

@@ -290,6 +290,7 @@
    function makeMarker(){
       $.get("/volunteer/web/data/member.json", function(data) {          
          var markers = $(data.positions).map(function(i, position) {
+        	 if(position.type == 1){
               var marker = new kakao.maps.Marker({
                    position : new kakao.maps.LatLng(position.lat, position.lng)
                });
@@ -316,6 +317,7 @@
                  }
              });
                return marker;
+        	 }
            });
          
            clusterer.addMarkers(markers);
@@ -378,7 +380,9 @@ $("#submit").click(function(){
     clusterer.clear();
        $.get("/volunteer/web/data/member.json", function(data) {          
          var markers = $(data.positions).map(function(i, position) {
+        	 if(position.type == 1){
             if(gender == position.gender && age1 <= position.age && age2 >= position.age){
+            	
                var marker = new kakao.maps.Marker({
                     position : new kakao.maps.LatLng(position.lat, position.lng)
                });
@@ -408,6 +412,7 @@ $("#submit").click(function(){
                 });
                   return marker;
             }
+        	 }
            });
          
            clusterer.addMarkers(markers);
