@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,6 +48,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	public void updateVolTime(ListVO vo) {
 		sqlSession.update("member.updateVolTime",vo);
+	}
+	public void updatePoint(String give_star,String vol_id) {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		hm.put("give_star", give_star);
+		hm.put("vol_id", vol_id);
+		
+		sqlSession.update("member.updatePoint",hm);
 	}
 	
 	public List<String> selectAllID(){

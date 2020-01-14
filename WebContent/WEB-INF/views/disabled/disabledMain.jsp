@@ -9,12 +9,12 @@
 
 <script>
    var timerId = null;
+   var timerId2 = null;
    var text = "";
    var static_id = "";
+   var SetTime = 300;	
    var setting = "<tr><td>닉네임</td><td>성별</td><td>주소</td><td>전화번호</td><td>나이</td><td>연결</td></tr>"
-   function ObjectFunc() {
-      
-   }
+   function ObjectFunc() {}
    ObjectFunc.exeConnect = function() {
       this.sendHelp();
       console.log(text);
@@ -22,6 +22,8 @@
          $('#connect_list').append(setting);
          console.log(text+'22');
          timerId = setInterval(this.getConnect, 2000);
+         timerId2 = setInterval(this.msg_timer, 1000);
+         $("#ViewTimer").show();
          $("#sendHelp").hide();
          $("#wait").show();
          $("#fail").hide();
@@ -57,15 +59,25 @@
 
    }
 
-   ObjectFunc.result = function(id) {
+   ObjectFunc.result = function(member) {
+	   console.log('여기다여기!');
       this.StopClock();
-      static_id=id;
-      console.log(id);
+      
+      static_id=member.id;
+      console.log(member.picture);
       $("#sendHelp").hide();
       $("#wait").hide();
       $("#fail").hide();
+      
+      $("#connect_info").html('<p><strong>'+member.address+'</strong>의 <strong>' +member.name+'</strong>님과 연결되었습니다.</p>'
+    		  + 	'<img class="circle" src="'+member.picture+'" style="width:100px; height:80px;margin-right: 8px;">'
+    		  + ' <input type="text" placeholder="별점주기 ex) 3.5" name="give_star" id="give_star"/> '
+    		  );
+      
+      
       $("#finish").show();
-      this.resultMessage(id);
+      
+      this.resultMessage(member.id);
    }
    
    ObjectFunc.resultMessage = function(id){
@@ -124,7 +136,7 @@
                                                    + "</td> <td>"
                                                    + member.age
                                                    + "</td> <td><input type='button' onclick='ObjectFunc.result("
-                                                   + member.id
+                                                   + JSON.stringify(member)
                                                    + ")' value='확인'</td></tr>");
 
                               });
@@ -137,18 +149,73 @@
 
    }
    ObjectFunc.StopClock = function() {
+	  this.delete_connect();
+	  $("#ViewTimer").hide();
+	  
       $("#sendHelp").show();
       $("#wait").hide();
       $("#fail").hide();
       $("#connect_list").html('');
       $("#connect_list").hide();
+      $("#timer").hide();
 
       if (timerId != null) {
          clearInterval(timerId);
+         SetTime=300;
+         clearInterval(timerId2);
 
       }
 
    }
+   
+   ObjectFunc.msg_timer = function(){
+	   
+	   		console.log('실행');
+			
+			
+			m = Math.floor(SetTime / 60) + "분 " + (SetTime % 60) + "초";	// 남은 시간 계산;
+			
+			var msg = "현재 남은 시간은 <font color='red'>" + m + "</font> 입니다.";
+			
+			 $("#ViewTimer").html(msg);		// div 영역에 보여줌 
+					
+			SetTime--;					// 1초씩 감소
+			
+			if (SetTime < 0) {			// 시간이 종료 되었으면..
+				this.StopClock();
+				clearInterval(tid);		// 타이머 해제
+				alert("종료");
+			}
+			
+		
+
+
+	   
+	   
+   }
+   
+   ObjectFunc.delete_connect = function(){
+	   $.ajax({
+
+	          url : 'delete_connect.vol',
+	          type : 'POST',
+
+
+	          contentType : 'application/json; charset=UTF-8',
+			
+	          success : function(result) {
+
+	             console.log(result);
+
+	          },
+	          error : function(error) {
+	            console.log(error);
+	         }
+	          
+
+	       });
+   }
+   
    ObjectFunc.insert_vol= function(){
       
       $("#finish").hide();
@@ -165,9 +232,9 @@
       var member = {
 
              "vol_id": static_id,
-
              "vol_time": $("#vol_time").val(),
-             "content": $("#vol_job").val()
+             "content": $("#vol_job").val(),
+             "disabled_id" : $("#give_star").val()
 
           };
       console.log(member);
@@ -182,7 +249,7 @@
           data : JSON.stringify(member), 
 
           contentType : 'application/json; charset=UTF-8',
-
+		
           success : function(result) {
 
              console.log(result);
@@ -217,8 +284,10 @@
    
 <div class="row">
 <div class="col s3">
-   <div style="height: 300px;text-align: center;">
+	
+   <div class="row" style="text-align: center;">
       <form method="post" name="result">
+       <div id="ViewTimer" style="display: none"   ></div>
          <table id="connect_list" style="display:none">      </table>
       </form>
       <form method="get" action="sendMessage.vol" name="sendHelp"   id="sendHelp">
@@ -227,13 +296,14 @@
          <input class="btn-large light-blue darken-4" type="button" value="도움요청" onclick="ObjectFunc.exeConnect()" style="font-size: 20px;"/>
          <p id="fail" style="display: none">주변에 사람이 없습니다.</p>
       </form>   
-   </div>
-   <div style="height: 90px;text-align: center;">
-      <form name="finish" id="finish" style="display: none">
+       <form name="finish" id="finish" style="display: none">
+      	<div id="connect_info"></div>
          <input class="btn-large light-blue darken-4" type="button" value="봉사완료" onclick="ObjectFunc.insert_vol()" />
       </form>
       <input class="btn-large light-blue darken-4" type="button" value="도움취소" style="display: none"   onclick="ObjectFunc.StopClock();" id="wait" />
+     
    </div>
+   
    <div class="row" style="height: 220px; text-align: center; margin-left: 1px;">
       <span class="col s12 light-blue darken-4 white-text text-darken-2" style="font-size: 30px">FILTER</span>
       <!--  필터 기능   -->

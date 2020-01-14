@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="updateVolTime" parameterType="listVO">
-		<selectKey resultType="int" keyProperty="total_vol_time" order="BEFORE">
+		<selectKey resultType="String" keyProperty="total_vol_time" order="BEFORE">
         SELECT total_vol_time FROM member where id=#{vol_id}        
     	</selectKey>
 		update member set total_vol_time =
@@ -66,6 +66,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		where id =#{vol_id}
 	</update>
+	
+	<update id="updatePoint" parameterType="hashmap">
+		<selectKey resultType="String" keyProperty="point" order="BEFORE">
+        SELECT point FROM member where id=#{vol_id}        
+    	</selectKey>
+		update member set point=
+		<if test="point== null">
+			#{give_star}
+		</if>
+		<if test="point != null">
+			(#{point} +#{give_star})/2
+		</if>
+		where id =#{vol_id}
+	</update>
+	
+	
 	
 	
 	

@@ -21,5 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteConnect" parameterType="hashmap">
 		delete from vol_connect where disabled_id=#{disabled_id} and vol_id=#{vol_id}
 	</delete>
+	<delete id="deleteConnectFromId" parameterType="String">
+		delete from vol_connect where disabled_id=#{disabled_id}
+	</delete>
 
 </mapper>

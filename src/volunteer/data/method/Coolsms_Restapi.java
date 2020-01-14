@@ -78,13 +78,13 @@ public class Coolsms_Restapi {
 
 				params.put("to", String.valueOf(list.get(i).getCallnumber()));
 				connectDao.insert(id, list.get(i).getId());
-				try {
-					JSONObject obj = (JSONObject) coolsms.send(params);
-					System.out.println(obj.toString());
-				} catch (CoolsmsException e) {
-					System.out.println(e.getMessage());
-					System.out.println(e.getCode());
-				}
+//				try {
+//					JSONObject obj = (JSONObject) coolsms.send(params);
+//					System.out.println(obj.toString());
+//				} catch (CoolsmsException e) {
+//					System.out.println(e.getMessage());
+//					System.out.println(e.getCode());
+//				}
 
 			}
 			return "success";
@@ -119,13 +119,13 @@ public class Coolsms_Restapi {
 		params.put("app_version", "test app 1.2"); // application name and version
 		params.put("to", String.valueOf(vo.getCallnumber()));
 
-		try {
-			JSONObject obj = (JSONObject) coolsms.send(params);
-			System.out.println(obj.toString());
-		} catch (CoolsmsException e) {
-			System.out.println(e.getMessage());
-			System.out.println(e.getCode());
-		}
+//		try {
+//			JSONObject obj = (JSONObject) coolsms.send(params);
+//			System.out.println(obj.toString());
+//		} catch (CoolsmsException e) {
+//			System.out.println(e.getMessage());
+//			System.out.println(e.getCode());
+//		}
 
 		return "success";
 	}

@@ -12,13 +12,13 @@ public class ListVO {
 	private int vol_time;
 	private String content;
 	private Timestamp time;
-	private int total_vol_time;
+	private String total_vol_time;
 	
 	
-	public int getTotal_vol_time() {
+	public String getTotal_vol_time() {
 		return total_vol_time;
 	}
-	public void setTotal_vol_time(int total_vol_time) {
+	public void setTotal_vol_time(String total_vol_time) {
 		this.total_vol_time = total_vol_time;
 	}
 	public Timestamp getTime() {

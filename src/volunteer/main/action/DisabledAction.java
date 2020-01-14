@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.simple.JSONArray;
@@ -127,6 +128,7 @@ public class DisabledAction {
 			data.put("age", vo.getAge());
 			data.put("gender", vo.getGender());
 			data.put("id",vo.getId());
+			data.put("picture",vo.getPicture());
 			jarray.add(data);
 		}
 		JSONObject resultObject = new JSONObject();
@@ -134,9 +136,19 @@ public class DisabledAction {
 		
 		System.out.println(resultObject);
 
-		String a = "Dk";
         return resultObject;
 	}
+	
+	@RequestMapping("delete_connect")
+	@ResponseBody
+	public String delete_connect(HttpSession session) {
+		
+				String id=(String) session.getAttribute("id");
+				connectDao.deleteConnect(id);
+				
+				return "success";
+	}
+	
 	
 	
 	//장애인이 List에서 봉사자를 선택하여 메세지를 전송하는 Ajax Controller
@@ -159,13 +171,24 @@ public class DisabledAction {
 	@RequestMapping("insert_vol")
 	@ResponseBody
 	public String insert_vol(@RequestBody ListVO vo, HttpSession session) {
+		//처음 Disabeld_id값으로 별점을 챙겨온다
+		//listvo에  point변수가 없어서 어쩔수 없이 이렇게 가져온다;
+		
+		String give_star=vo.getDisabled_id();
+		memberDao.updatePoint(give_star,vo.getVol_id());
 		String id=(String) session.getAttribute("id");
 		vo.setDisabled_id(id);
+		
+		
+		System.out.println(vo.getContent());
+		System.out.println(vo.getVol_time());
 		
 		volListDao.insert_vol_list(vo);
 		
 		
+		
 		memberDao.updateVolTime(vo);
+		
 		return "성공";
 		
 		

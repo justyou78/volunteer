@@ -29,6 +29,10 @@ public class ConnectDAOImpl implements ConnectDAO {
 		hm.put("vol_id",vol_id );
 		sqlsession.delete("connect.deleteConnect", hm);
 	}
+	public void deleteConnect(String disabled_id) {
+	
+		sqlsession.delete("connect.deleteConnectFromId", disabled_id);
+	}
 	public List<ConnectVO> selectAll(String id){
 		List<ConnectVO> list = sqlsession.selectList("connect.selectAll",id);
 		
