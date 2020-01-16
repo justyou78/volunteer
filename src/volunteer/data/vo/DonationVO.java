@@ -2,7 +2,7 @@ package volunteer.data.vo;
 
 import java.sql.Timestamp;
 
-
+//기부금 내역 VO
 public class DonationVO {
 	private String aid;
 	private String user_id;

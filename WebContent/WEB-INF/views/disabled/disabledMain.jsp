@@ -17,10 +17,8 @@
    function ObjectFunc() {}
    ObjectFunc.exeConnect = function() {
       this.sendHelp();
-      console.log(text);
       if(text=='success') {
          $('#connect_list').append(setting);
-         console.log(text+'22');
          timerId = setInterval(this.getConnect, 2000);
          timerId2 = setInterval(this.msg_timer, 1000);
          $("#ViewTimer").show();
@@ -48,7 +46,6 @@
          type : "post",
          success : function(retVal) {
             text = retVal;
-            console.log(retVal);
             alert(retVal);
 
          },
@@ -64,7 +61,6 @@
       this.StopClock();
       
       static_id=member.id;
-      console.log(member.picture);
       $("#sendHelp").hide();
       $("#wait").hide();
       $("#fail").hide();
@@ -108,9 +104,6 @@
                contentType : "application/x-www-form-urlencoded; charset=UTF-8",
                type : "post",
                success : function(retVal) {
-
-                  console.log(retVal);
-
                   $.each(
                               retVal.member,
                               function(index, member) {
@@ -138,7 +131,6 @@
                                                    + "</td> <td><input type='button' onclick='ObjectFunc.result("
                                                    + JSON.stringify(member)
                                                    + ")' value='확인'</td></tr>");
-
                               });
 
                },
@@ -170,7 +162,6 @@
    
    ObjectFunc.msg_timer = function(){
 	   
-	   		console.log('실행');
 			
 			
 			m = Math.floor(SetTime / 60) + "분 " + (SetTime % 60) + "초";	// 남은 시간 계산;
@@ -226,9 +217,6 @@
       $("#connect_list").hide();
       
    
-      console.log(static_id);
-      console.log($("#vol_time").val());
-      console.log($("#vol_job").val() );
       var member = {
 
              "vol_id": static_id,
@@ -237,7 +225,6 @@
              "disabled_id" : $("#give_star").val()
 
           };
-      console.log(member);
       $.ajax({
 
           url : 'insert_vol.vol',

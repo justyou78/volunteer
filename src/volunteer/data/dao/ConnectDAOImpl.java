@@ -35,7 +35,6 @@ public class ConnectDAOImpl implements ConnectDAO {
 	}
 	public List<ConnectVO> selectAll(String id){
 		List<ConnectVO> list = sqlsession.selectList("connect.selectAll",id);
-		
 		return list;
 		
 	}

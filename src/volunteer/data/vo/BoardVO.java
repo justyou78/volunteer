@@ -2,6 +2,7 @@ package volunteer.data.vo;
 
 import java.sql.Timestamp;
 
+//게시판 VO
 public class BoardVO {
 	private int bbsno;
 	private String id;

@@ -39,11 +39,8 @@ import volunteer.data.component.Component;
 @Log
 public class Kakao_Restapi {
 	
-	@Autowired
-	Component component;
-	
+	//카카오 REST API를 통해서 카카오 사용자 토큰을 가져옵니다.
 	public JsonNode getAccessToken(String autorize_code) {
-		 System.out.println("test");
         final String RequestUrl = "https://kauth.kakao.com/oauth/token";
 
         final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
@@ -91,7 +88,7 @@ public class Kakao_Restapi {
         return returnNode;
  
     }
-	
+	// 카카오 로그아웃을 사용합니다.
 	public JsonNode Logout(String autorize_code) {
         final String RequestUrl = "https://kapi.kakao.com/v1/user/logout";
  
@@ -131,38 +128,7 @@ public class Kakao_Restapi {
  
     }
 	
-	public JsonNode getUserInfo (String access_Token) {
-	    
-	    //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-	   // HashMap<String, Object> userInfo = new HashMap<>();
-	 
-	    final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
-	    
-	    final HttpClient client = HttpClientBuilder.create().build();
-	    
-	    final HttpPost post = new HttpPost(RequestUrl);
-	    
-	    post.addHeader("Authorization", "Bearer " + access_Token);
-	    
-	    JsonNode returnNode = null;
-	    
-	    
-	    try {
-	    	  final HttpResponse response = client.execute(post);
-	    	  
-	            ObjectMapper mapper = new ObjectMapper();
-	 
-	            returnNode = mapper.readTree(response.getEntity().getContent());
-	     
-	            
-	        
-	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
-	    
-	    return returnNode;
-	}
+	// 토큰을 이용하여 카카오  REST API를 통해서 사용자의 정보를 가져옵니다.
 	public JsonNode getKakaoUserInfo(String accessToken) {
 		 
         final String RequestUrl = "https://kapi.kakao.com/v2/user/me";
@@ -178,8 +144,6 @@ public class Kakao_Restapi {
             final HttpResponse response = client.execute(post);
             final int responseCode = response.getStatusLine().getStatusCode();
  
-            System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
-            System.out.println("Response Code : " + responseCode);
  
             // JSON 형태 반환값 처리
             ObjectMapper mapper = new ObjectMapper();
@@ -196,6 +160,7 @@ public class Kakao_Restapi {
         return returnNode;
     }
 	
+	//카카오페이를 준비시킵니다.
 	public JsonNode kakaoPayReady(HttpSession httpSession,String money) {
 		
 		 final String RequestUrl = "https://kapi.kakao.com/v1/payment/ready";
@@ -203,15 +168,10 @@ public class Kakao_Restapi {
 		 final HttpClient client = HttpClientBuilder.create().build();
 		
 		 final HttpPost post = new HttpPost(RequestUrl);
-		 
-		 
 		 String token = (String)httpSession.getAttribute("token");
-		 System.out.println(token+"세션내부토큰");
 		 post.addHeader("Authorization", "Bearer "+token);
 		 post.addHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-		 
 		 final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-		 
 		 postParams.add(new BasicNameValuePair("cid", "TC0ONETIME"));
 		 postParams.add(new BasicNameValuePair("partner_order_id", "1001"));
 		 postParams.add(new BasicNameValuePair("partner_user_id", "global"));
@@ -256,21 +216,14 @@ public class Kakao_Restapi {
 
 	}
 	
+	// 각 내용들을 활용하여 카카오페이가 처리된 내용을 가져옵니다.
 	public JsonNode kakaoPayInfo(String pg_token,HttpSession session,String tid) {
-		 
-		  RestTemplate restTemplate = new RestTemplate();
-    
 		 final String RequestUrl = "https://kapi.kakao.com/v1/payment/approve";
-			
 		 final HttpClient client = HttpClientBuilder.create().build();
-		
 		 final HttpPost post = new HttpPost(RequestUrl);
-		 
 		 post.addHeader("Authorization", "Bearer "+(String)session.getAttribute("token"));
 		 post.addHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-		 
 		 final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-		 
 		 postParams.add(new BasicNameValuePair("cid", "TC0ONETIME"));
 		 postParams.add(new BasicNameValuePair("tid", tid));
 		 postParams.add(new BasicNameValuePair("partner_order_id", "1001"));
@@ -304,24 +257,6 @@ public class Kakao_Restapi {
 	        }
 		 
 		 return returnNode;
-	 
-		 
-		 
       
     }
-	
-
-
-		 
-
-    
 }
-
-
-
-
-
-
-
-
-

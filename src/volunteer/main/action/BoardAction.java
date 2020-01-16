@@ -49,6 +49,7 @@ public class BoardAction {
 	public String boardWriteForm() {
 		return "board/boardWriteForm";
 	}
+	// 글쓰기 처리
 	@RequestMapping("boardWritePro")
 	public String boardWritePro(BoardVO vo, HttpSession session) {
 		String id =(String)session.getAttribute("id");
@@ -78,6 +79,7 @@ public class BoardAction {
 		model.addAttribute("num", num);
 		return "board/boardDeleteForm";
 	}
+	// 게시글 삭제 처리
 	@RequestMapping("boardDeletePro")
 	public String boardDeletePro(int num) {
 		dao.delete(num);

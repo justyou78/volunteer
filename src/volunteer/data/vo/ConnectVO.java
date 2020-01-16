@@ -1,9 +1,7 @@
 package volunteer.data.vo;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
+//봉사자 연결 VO
 public class ConnectVO {
 	private String vol_id;
 	private String disabled_id;

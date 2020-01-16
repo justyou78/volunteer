@@ -1,5 +1,6 @@
 package volunteer.data.vo;
 
+//사용자 VO
 public class MemberVO {
 
 	private String id;

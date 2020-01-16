@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+//봉사 리스트 VO
 public class ListVO {
 	private String vol_id;
 	private String disabled_id;
